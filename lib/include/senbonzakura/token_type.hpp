@@ -1,5 +1,6 @@
 #pragma once
 
+#include <format>
 #include <string>
 
 enum class TokenType {
@@ -60,3 +61,11 @@ enum class TokenType {
 };
 
 std::string TokenTypeToString(TokenType token_type);
+
+template <>
+struct std::formatter<TokenType, char> : std::formatter<std::string, char> {
+  auto format(TokenType token_type, std::format_context &ctx) const {
+    return std::formatter<std::string, char>::format(
+        TokenTypeToString(token_type), ctx);
+  }
+};
