@@ -1,6 +1,7 @@
 #pragma once
 
 #include <any>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -23,13 +24,22 @@ private:
   bool Match(char expected);
   char Peek(int offset);
   void String();
+  void UpdateColumnNumber();
 
   int current_ = 0;
   int start_ = 0;
   int line_ = 1;
   int column_ = 1;
+  int column_delta_ = 1;
   std::string source_code_;
   std::vector<Token> tokens_;
+  std::map<std::string, TokenType> keywords_to_tokentypes_ = {
+      {"int", TokenType::kInt},       {"bool", TokenType::kBool},
+      {"if", TokenType::kIf},         {"else", TokenType::kElse},
+      {"while", TokenType::kWhile},   {"return", TokenType::kReturn},
+      {"true", TokenType::kTrue},     {"false", TokenType::kFalse},
+      {"length", TokenType::kLength}, {"use", TokenType::kUse},
+  };
 
 public:
   Lexer(std::string source_code);
