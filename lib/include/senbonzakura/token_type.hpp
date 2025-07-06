@@ -19,8 +19,6 @@ enum class TokenType {
   kRemainder,
   kStar,
   kSlash,
-  kAmpersand,
-  kPipe,
 
   // Single or Double Character Tokens.
   kBang,
@@ -31,6 +29,8 @@ enum class TokenType {
   kGreaterEqual,
   kLess,
   kLessEqual,
+  kLogicalAnd,
+  kLogicalOr,
 
   // Triple-Charachter Tokens.
   kHighMul,
