@@ -119,7 +119,6 @@ void Lexer::LexToken() {
     AddToken(TokenType::kRemainder);
     break;
   case ('*'):
-    // TODO: Change this to update the 'current' index.
     if (Peek(0) == '>' && Peek(1) == '>') {
       Advance();
       Advance();
