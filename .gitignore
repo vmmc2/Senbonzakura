@@ -31,8 +31,15 @@
 *.out
 *.app
 
-# Build Folder
-**/build
-
 # Clang File
 .clangd
+
+# Build directory
+**/build
+
+# Vcpkg
+vcpkg_installed/
+
+# IDE files
+.vscode/
+.idea/
