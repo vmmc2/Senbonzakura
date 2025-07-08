@@ -1,1 +1,8 @@
-
+{
+  "name": "senbonzakura",
+  "version-string": "1.0.0",
+  "dependencies": [
+    "cli11",
+    "gtest"
+  ]
+}
