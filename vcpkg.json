@@ -1,5 +1,6 @@
 {
   "name": "senbonzakura",
+  "builtin-baseline": "c6f09fc73ebfbfddd769f8fac9f33f95304c77e5",
   "version-string": "1.0.0",
   "dependencies": [
     "cli11",
