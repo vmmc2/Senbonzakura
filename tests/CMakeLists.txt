@@ -2,6 +2,11 @@ find_package(GTest REQUIRED)
 
 # Cria um executável para os testes
 add_executable(senbonzakura_tests
+  diagnostic_reporter_test.cpp
+  file_scanner_test.cpp
+  lexer_test.cpp
+  token_test.cpp
+  token_type_test.cpp
 )
 
 # Linka os testes com a sua biblioteca e com o GTest
