@@ -42,6 +42,6 @@ private:
   };
 
 public:
-  Lexer(std::string source_code);
+  Lexer(const std::string& source_code);
   const std::vector<Token> &LexTokens();
 };

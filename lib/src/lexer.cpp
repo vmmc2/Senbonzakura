@@ -5,7 +5,7 @@
 
 #include "../include/senbonzakura/token.hpp"
 
-Lexer::Lexer(std::string source_code) : source_code_(source_code) {}
+Lexer::Lexer(const std::string& source_code) : source_code_(source_code) {}
 
 void Lexer::AddToken(TokenType token_type) {
   AddToken(token_type, nullptr);
