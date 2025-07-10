@@ -46,3 +46,7 @@ vcpkg_installed/
 # IDE Files
 .vscode/
 .idea/
+
+# Eta Files
+*.eta
+*.eti
