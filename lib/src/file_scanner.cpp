@@ -25,6 +25,7 @@ void FileScanner::ScanFile() {
   }
 
   file_content_.resize(file.tellg());
+  file.seekg(0, std::ios::beg);
   file.read(file_content_.data(), file_content_.size());
   file.close();
 
