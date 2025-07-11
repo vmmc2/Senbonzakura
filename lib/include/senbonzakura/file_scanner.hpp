@@ -1,13 +1,16 @@
 #pragma once
 
+#include "diagnostic_reporter.hpp"
 #include <string>
 
 class FileScanner {
   private:
     std::string file_path_{""};
     std::string file_content_{""};
+    DiagnosticReporter& diagnostic_reporter_;
+
   public:
-    explicit FileScanner(std::string file_path);
+    FileScanner(std::string file_path, DiagnosticReporter& diagnostic_reporter);
 
     void ScanFile();
 

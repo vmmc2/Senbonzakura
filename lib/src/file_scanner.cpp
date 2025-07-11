@@ -1,12 +1,13 @@
 #include "../include/senbonzakura/file_scanner.hpp"
+#include "senbonzakura/diagnostic_reporter.hpp"
 
 #include <filesystem>
 #include <format>
 #include <fstream>
 #include <stdexcept>
 
-FileScanner::FileScanner(std::string file_path)
-    : file_path_(std::move(file_path)) {}
+FileScanner::FileScanner(std::string file_path, DiagnosticReporter& diagnostic_reporter)
+    : file_path_(std::move(file_path)), diagnostic_reporter_(diagnostic_reporter) {}
 
 void FileScanner::ScanFile() {
   std::filesystem::path path{file_path_};
