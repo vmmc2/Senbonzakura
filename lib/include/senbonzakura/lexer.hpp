@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include "diagnostic_reporter.hpp"
 #include "token.hpp"
 #include "token_type.hpp"
 
@@ -40,8 +41,9 @@ private:
       {"true", TokenType::kTrue},     {"false", TokenType::kFalse},
       {"length", TokenType::kLength}, {"use", TokenType::kUse},
   };
+  DiagnosticReporter& diagnostic_reporter_;
 
 public:
-  Lexer(const std::string& source_code);
+  Lexer(const std::string& source_code, DiagnosticReporter& diagnostic_reporter);
   const std::vector<Token> &LexTokens();
 };

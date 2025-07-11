@@ -4,8 +4,11 @@
 #include <string>
 
 #include "../include/senbonzakura/token.hpp"
+#include "senbonzakura/diagnostic_reporter.hpp"
 
-Lexer::Lexer(const std::string& source_code) : source_code_(source_code) {}
+Lexer::Lexer(const std::string &source_code,
+             DiagnosticReporter& diagnostic_reporter)
+    : source_code_(source_code), diagnostic_reporter_(diagnostic_reporter) {}
 
 void Lexer::AddToken(TokenType token_type) {
   AddToken(token_type, nullptr);
