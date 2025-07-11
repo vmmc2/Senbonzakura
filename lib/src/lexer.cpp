@@ -185,6 +185,7 @@ void Lexer::LexToken() {
   case ('\n'):
     line_++;
     column_ = 1;
+    column_delta_ = 0;
     break;
   case ('"'):
     String();
