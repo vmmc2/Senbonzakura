@@ -1,7 +1,8 @@
 #pragma once
 
-#include "diagnostic_reporter.hpp"
 #include <string>
+
+#include "diagnostic_reporter.hpp"
 
 class FileScanner {
   private:

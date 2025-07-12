@@ -4,25 +4,33 @@
 #include <filesystem>
 #include <format>
 #include <fstream>
-#include <stdexcept>
 
-FileScanner::FileScanner(std::string file_path, DiagnosticReporter& diagnostic_reporter)
-    : file_path_(std::move(file_path)), diagnostic_reporter_(diagnostic_reporter) {}
+FileScanner::FileScanner(std::string file_path,
+                         DiagnosticReporter &diagnostic_reporter)
+    : file_path_(std::move(file_path)),
+      diagnostic_reporter_(diagnostic_reporter) {}
 
 void FileScanner::ScanFile() {
   std::filesystem::path path{file_path_};
   if (path.extension() != ".eta") {
-    throw std::runtime_error{std::format(
-        "[E]: Could not read the provided file '{}' because it is not an "
-        "Eta file. Eta files must have the '.eta' extension.",
-        file_path_)};
+    diagnostic_reporter_.Report(
+        std::move(SourceCodeLocation{
+            .source_name = file_path_, .line = 0, .column = 0}),
+        Severity::kFatal,
+        std::format(
+            "[E]: Could not read the provided file '{}' because it is not an "
+            "Eta file. Eta files must have the '.eta' extension.",
+            file_path_));
   }
 
   std::ifstream file{file_path_,
                      std::ios::in | std::ios::binary | std::ios::ate};
   if (!file) {
-    throw std::runtime_error{
-        std::format("[E]: Could not open the provided file '{}'.", file_path_)};
+    diagnostic_reporter_.Report(
+        std::move(SourceCodeLocation{
+            .source_name = file_path_, .line = 0, .column = 0}),
+        Severity::kFatal,
+        std::format("[E]: Could not open the provided file '{}'.", file_path_));
   }
 
   file_content_.resize(file.tellg());
