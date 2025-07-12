@@ -57,10 +57,14 @@ struct Diagnostic {
 class DiagnosticReporter {
 private:
   std::vector<Diagnostic> diagnostics_;
-  int error_count_ = 0;
+  int warning_count_ = 0;
+  int normal_error_count_ = 0;
+  int fatal_error_count_ = 0;
 
 public:
   void Report(SourceCodeLocation loc, Severity sev, std::string msg);
-  bool HasErrors() const;
-  void Print() const;
+  bool HasWarnings() const;
+  bool HasNormalErrors() const;
+  bool HasFatalErrors() const;
+  void PrintDiagnostic() const;
 };

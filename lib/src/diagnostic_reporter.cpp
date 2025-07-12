@@ -27,18 +27,30 @@ std::ostream &operator<<(std::ostream &os, const Diagnostic &diagnostic) {
 void DiagnosticReporter::Report(SourceCodeLocation loc, Severity sev,
                                 std::string msg) {
   diagnostics_.push_back(Diagnostic(std::move(msg), loc, sev));
-  if (sev == Severity::kError || sev == Severity::kFatal) {
-    error_count_++;
+  if (sev == Severity::kWarning) {
+    warning_count_++;
+  } else if (sev == Severity::kError) {
+    normal_error_count_++;
+  } else {
+    fatal_error_count_++;
   }
 
   return;
 }
 
-bool DiagnosticReporter::HasErrors() const { return error_count_ > 0; }
+bool DiagnosticReporter::HasFatalErrors() const {
+  return fatal_error_count_ > 0;
+}
 
-void DiagnosticReporter::Print() const {
+bool DiagnosticReporter::HasNormalErrors() const {
+  return normal_error_count_ > 0;
+}
+
+bool DiagnosticReporter::HasWarnings() const { return warning_count_ > 0; }
+
+void DiagnosticReporter::PrintDiagnostic() const {
   for (const Diagnostic &curr_diagnostic : diagnostics_) {
-    std::cout << std::format("") << std::endl;
+    std::cout << curr_diagnostic << std::endl;
   }
 
   return;
