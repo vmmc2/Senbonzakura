@@ -32,6 +32,7 @@ private:
   int line_ = 1;
   int column_ = 1;
   int column_delta_ = 1;
+  std::string file_path_{""};
   std::string source_code_;
   std::vector<Token> tokens_;
   std::map<std::string, TokenType> keywords_to_tokentypes_ = {
@@ -44,6 +45,6 @@ private:
   DiagnosticReporter& diagnostic_reporter_;
 
 public:
-  Lexer(const std::string& source_code, DiagnosticReporter& diagnostic_reporter);
+  Lexer(const std::string& file_path, const std::string& source_code, DiagnosticReporter& diagnostic_reporter);
   const std::vector<Token> &LexTokens();
 };

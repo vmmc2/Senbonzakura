@@ -1,14 +1,16 @@
 #include "../include/senbonzakura/lexer.hpp"
 
 #include <any>
+#include <format>
 #include <string>
 
 #include "../include/senbonzakura/token.hpp"
 #include "senbonzakura/diagnostic_reporter.hpp"
 
-Lexer::Lexer(const std::string &source_code,
-             DiagnosticReporter& diagnostic_reporter)
-    : source_code_(source_code), diagnostic_reporter_(diagnostic_reporter) {}
+Lexer::Lexer(const std::string &file_path, const std::string &source_code,
+             DiagnosticReporter &diagnostic_reporter)
+    : file_path_(file_path), source_code_(source_code),
+      diagnostic_reporter_(diagnostic_reporter) {}
 
 void Lexer::AddToken(TokenType token_type) {
   AddToken(token_type, nullptr);
@@ -155,7 +157,6 @@ void Lexer::LexToken() {
       AddToken(TokenType::kEqualEqual);
       column_delta_ = 2;
     }
-    AddToken(Peek(0) != '=' ? TokenType::kEqual : TokenType::kEqualEqual);
     break;
   case ('>'):
     if (Peek(0) != '=') {
@@ -199,7 +200,13 @@ void Lexer::LexToken() {
     } else if (IsDigit(current_char)) {
       Integer();
     } else {
-      // TODO: Report lexical error.
+      diagnostic_reporter_.Report(
+          std::move(SourceCodeLocation{
+              .source_name = file_path_, .line = line_, .column = column_}),
+          Severity::kFatal,
+          std::format(
+              "[E]: Unrecgonized lexeme present inside the source file: {}.",
+              source_code_[current_]));
     }
   }
 
@@ -237,8 +244,12 @@ void Lexer::String() {
     AddToken(TokenType::kString,
              source_code_.substr(start_ + 1, current_ - start_ - 2));
   } else {
-    // TODO: Report error because the string literal was not terminated with a
-    // '"' character.
+    diagnostic_reporter_.Report(
+        std::move(SourceCodeLocation{
+            .source_name = file_path_, .line = line_, .column = column_}),
+        Severity::kFatal,
+        std::format("[E]: An unterminated string literal was found within the "
+                    "source code."));
   }
 
   column_delta_ = current_ - start_;
@@ -256,6 +267,9 @@ const std::vector<Token> &Lexer::LexTokens() {
   while (!IsAtEnd()) {
     start_ = current_;
     LexToken();
+    if(diagnostic_reporter_.HasFatalErrors()){
+      break;
+    }
   }
   tokens_.emplace_back(Token(line_, column_, TokenType::kFileEnd, nullptr, ""));
 
