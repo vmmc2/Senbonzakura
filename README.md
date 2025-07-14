@@ -1,2 +1,4 @@
 # Senbonzakura
-This repository contains the source code of a compiler tailored to the programming language presented at the Cornell University course: "CS 4120 - Introduction to Compilers".
+
+## Intro
+Compiler written in C++ for the Eta programming language, presented at "CS 4120 - Introduction to Compilers" course from Cornell University. 
