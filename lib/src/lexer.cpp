@@ -75,7 +75,7 @@ bool Lexer::IsAlpha(char c) {
 }
 
 bool Lexer::IsAlphaNumeric(char c) {
-  return (IsAlpha(c) || IsDigit(c) || c == '_');
+  return (IsAlpha(c) || IsDigit(c) || c == '_' || c == '\'');
 }
 
 bool Lexer::IsAtEnd() { return current_ >= source_code_.length(); }
