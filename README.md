@@ -14,3 +14,126 @@ Compiler written in C++ for the Eta programming language, presented at "CS 4120 
   - [ ] Therefore ASCII input is always valid. Comments are indicated by a double slash (```//```) followed by any sequence of characters until a newline character.
   - [ ] String and character literals should support some reasonable set of character escapes, including at least ```"\\"```, ```"\n"```, and ```"\'"```.
   - [ ] In addition, an escape of the form ```"\x{HHHHHH}"```, where ```HHHHHH``` stands for ```1–6``` hexadecimal digits (upper or lower case), represents the Unicode character with the corresponding code. For example ```"\x{0a}"``` is the same as ```"\n"```. You may be more successful parsing negative integer literals as the negation of a positive literal.
+
+## Overview of Eta Features
+* __Eta programs consist of a single source file containing definitions of one or more functions.__
+  * Execution of a program consists of evaluating a call to the distinguished function named ```main```.
+* __The language has two primitive types:__
+  * integers ```(int)``` and booleans ```(bool)```.
+  * The array type ```T[]``` exists for any type ```T```, so ```T[][]``` represents an array of arrays.
+* __Functions may return a value, but need not.__
+  * In Eta, a function that does not return a value is called a procedure.
+  * A function may take no arguments, one argument, or multiple arguments.
+  * Unlike in languages such as C and Java, a function may also return multiple results.
+* __There is no ```string``` type, but the type ```int[]``` may be used for most of the same purposes. Literal string constants have this type.__
+
+## Variables in Eta
+* Variables are declared by following them with a type declaration and an optional initialization expression.
+* There are no holes in scope; __a variable may not be declared when another variable of the same name is already in scope.__
+* Examples of variable declaration in Eta:
+```rust
+x:int = 2;
+z:int
+b: bool, i:int = f(x)
+s: int[] = "Hello";
+```
+* __Use of the value of an uninitialized variable has undefined behavior.__
+* __Eta compilers are not required to detect the use of uninitialized variables.__
+* __Identifiers, including variable names, start with any letter and may continue with any sequence of letters, numbers, the underscore character ```(_)```, or single-quote characters ```(')```.__
+* As in Java, variables are in scope from the point of declaration till the end of their block.
+* __The value of a variable can be changed imperatively using an assignment statement, as in the following examples:__
+```rust
+x = x + 1;
+s = {1, 2, 3};
+b = !b;
+```
+
+## Function Definitions
+* A program contains a sequence of function definitions, including the definitions of the function ```main```.
+* __All functions in the program are in scope in the bodies of all functions, even if the use precedes the definition.__
+* A function definition starts with the name of the function, followed by its argument(s), its return type(s), and the definition of its code.
+  * Only one function with a given name can exist in a program. Hence, there is no function overloading.
+* The result of a function is returned using the ```return``` statement. To simplify parsing, any ```return``` statement can only occur as the last statement in its block.
+* Example of a function definition in Eta:
+```rust
+// Return the greatest common divisor of two integers
+gcd(a:int, b:int):int {
+  while (a != 0) {
+    if (a < b) b = b - a;
+    else a = a - b;
+  }
+  return b;
+}
+```
+
+### Multiple Results
+* Unlike in C or Java, in Eta, a function may return multiple results, indicated in the function definition by giving a list of return types, separated by commas.
+* If this list is absent, the function is a procedure. It means that it does not return a value.
+* The result of a function that return multiple results is a list of expressions, separated by commas.
+* The example below shows how this is done in Eta:
+```rust
+// Add two rational numbers p1/q1 and p2/q2, returning
+// two numbers p3, q3 representing their sum, p3/q3.
+ratadd(p1:int, q1:int, p2:int, q2:int) : int, int {
+  g:int = gcd(q1,q2);
+  p3:int = p1*(q2/g) + p2*(q1/g);
+  return p3, q1/g*q2;
+}
+```
+* __Results from a function that returns multiple values can be used only through a multiple assignment in which the left-hand side is a sequence of either assignable expressions or variable declarations.__
+* The example below show how this is done in Eta:
+```rust
+q:int
+p:int, q = ratadd(2, 5, 1, 3)
+_, q’:int = ratadd(1, 2, 1, 3)
+```
+* In the code snippet above, we see that the value ```11``` is assigned to the variable ```p``` and the value ```15```  is assigned to ```q```. Moreover, the value ```6``` is assigned to ```q'``` and the first value, ```5```, is discarded.
+* __The pseudo-variable ```_``` can be used to discard one of the results. It also can be used to explicitly discard the result of a function call that returns a single result.__
+* __A feature present in Eta that resembles one that is also present in Python is: A multiple assignment can also be used with a right-hand side that is a comma-separated list of expressions. In this case, the expressions on the right-hand side are all evaluated before any assignments. For example, the following statement swaps the values of the variables ```x``` and ```y```:__
+```rust
+x, y = y, x;
+```
+* __Assignable expressions also include array index expressions and ```_```, so it is also possible to swap two array elements without a temporary variable:__
+```rust
+a[i], a[j] = a[j], a[i];
+```
+
+### Global Variables
+* A program can contain global variable declarations, written at the top level outside any function definition.
+* Global variables are in scope throughout the program, just like function definitions.
+* Example of global variable declarations in Eta:
+```rust
+len: int = 100;
+n’: int = -1;
+debug: bool = false;
+points: int[];
+```
+* Integer variables may be initialized at the point of declaration to an integer literal, and boolean variables may be initialized to a boolean literal.
+* __Global arrays can be declared but cannot be initialized at the point of declaration.__
+* __Important: All global variables in scope may have their value changed by assignments in functions, like shown in the code snippet below:__
+```rust
+debug: bool;
+
+setDebug(b: bool) {
+  debug = b
+}
+```
+
+## Data Types
+
+### Integers
+
+### Booleans
+
+### Arrays
+
+
+## Doubts
+* What about the ```char``` type? If the type ```int[]``` can be used to represent a ```string```. Then, by following this logic, can we use the ```int``` type to represent a ```char``` ?
+* If the answer to the question above is yes, then which character set are we representing? ASCII? UTF-8? How does one represent any UTF-8 character using an ```int``` value?
+* What exactly is undefined behavior? How should we approach the usage of a variable that has not been initialized? Need to see examples from other programming languages like C, C++, Python, Java.
+* It would be cool to detect the use of uninitialized variables and, then, maybe throw a warning or an error during the compilation phase.
+* It seems that the specification document has left ambiguous whether or not a statement has a semicolon ```(;)``` at its end. Since most languages opt to use it, I'll also do so.
+* Honestly, I don't know how the following observation present in Eta specification can make the parsing easier: "To simplify parsing, any ```return``` statement can only occur as the last statement in its block."
+* Regarding the usage of the pseudo-variable, normally represented by ```_```, should we treat it as an identifier when performing the lexing stage? If not, how should we treat it?
+* Honestly, I got a little confused about the following statement declared within the Eta programming language specification: "All global variables in scope may have their value changed by assignments in functions". Does this mean that everytime that I want to change the value of a global variable I must call a specific function that does that for me?
