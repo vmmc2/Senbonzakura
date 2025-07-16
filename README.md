@@ -122,11 +122,34 @@ setDebug(b: bool) {
 ## Data Types
 
 ### Integers
+* The type ```int``` describes integers from ```−2^63``` to ```2^63 − 1```. Which means they are represented internally as 64-bits signed integers.
+* They support the usual operations: ```+```, ```-```, ```*```, ```/```, and ```%```, which all operate modulo ```2^64```. 
+* In addition, the “high multiplication” operator ```*>>``` returns the high 64-bits of the 128-bit product of its operands. For example, the high multiplication of ```2^32``` with itself has the result ```1```. This operator is helpful for doing certain kinds of number crunching.
+* __Division by zero causes the program to halt with an error.__
+* Integers can be compared with the usual Java/C relational operators: ```==```, ```!=```, ```<```, ```<=```, ```>```, and ```>=```.
+* __A literal integer constant is denoted by an optional minus sign (```-```) and a sequence of digits starting with a digit in ```1–9```, or a single ```0```.__
+* As in Java, a character literal may be used to denote an integer, so ```'a'``` is the same as ```97```. __Character literals may signify any legal Unicode character, with allowed codes ranging from ```U+000000``` to ```U+10FFFF```.__
 
 ### Booleans
+* The type bool has two values: ```true``` and ```false```.
+* The binary operator ```&``` is a short-circuit ```and``` and the operator ```|``` is short-circuit ```or```. The unary operation ```!``` is negation, also known as ````not```.
+* Booleans can also be compared using the operators ```==``` and ```!=```.
 
 ### Arrays
+#### One-Dimensional Arrays
+#### Multi-Dimensional Arrays
 
+
+## Precedence
+
+## Statements
+
+## Lexical Considerations
+* The language is case-sensitive. __An input file is a sequence of Unicode characters, encoded using UTF-8. Therefore ASCII input is always valid.__
+* Comments are indicated by a double slash // followed by any sequence of characters until a newline character.
+* Keywords (```use```, ```if```, ```while```, ```else```, ```return```, ```length```) may not be used as identifiers. Nor may the names or values of the primitive types (```int```, ```bool```, ```true```, ```false```).
+* __String and character literals should support some reasonable set of character escapes, including at least ```"\\"```, ```"\n"```, and ```"\'"```. In addition, an escape of the form ```"\x{HHHHHH}"```, where ```HHHHHH``` stands for ```1–6``` hexadecimal digits (upper or lower case), represents the Unicode character with the corresponding code. For example ```"\x{0a}"``` is the same as ```"\n"```.__
+* __You may be more successful parsing negative integer literals as the negation of a positive literal.__
 
 ## Doubts
 * What about the ```char``` type? If the type ```int[]``` can be used to represent a ```string```. Then, by following this logic, can we use the ```int``` type to represent a ```char``` ?
@@ -137,3 +160,5 @@ setDebug(b: bool) {
 * Honestly, I don't know how the following observation present in Eta specification can make the parsing easier: "To simplify parsing, any ```return``` statement can only occur as the last statement in its block."
 * Regarding the usage of the pseudo-variable, normally represented by ```_```, should we treat it as an identifier when performing the lexing stage? If not, how should we treat it?
 * Honestly, I got a little confused about the following statement declared within the Eta programming language specification: "All global variables in scope may have their value changed by assignments in functions". Does this mean that everytime that I want to change the value of a global variable I must call a specific function that does that for me?
+* What does it mean to say that every binary arithmetic operation operates modulo ```2^64```?
+* What is number crunching and why it may be useful in certain scenarios?
