@@ -137,6 +137,51 @@ setDebug(b: bool) {
 
 ### Arrays
 #### One-Dimensional Arrays
+* An array ```T[]``` is a __fixed-length sequence of mutable cells__ of type ```T```.
+* When indexing an array keep in mind that to be a valid index, __an index ```i``` must be nonnegative and less than the length of the array (i.e., ```0 <= i < length(array)```).__
+* __If ```i``` is not valid (i.e., does not satisfies the requirements presented above), then this is caught during runtime and the program halts, displaying an error message.__
+* The expression ```length(e)``` is responsible for providing the length of the array ```e```. In other words, it tells us the amount of elements it stores.
+* Array cells may be assigned to using an array index expression on the left-hand side of an assignment.
+* The code snippet below, shows us the Insertion Sort algorithm implemented in Eta:
+```rust
+sort(a: int[]) {
+  i:int = 0;
+  n:int = length(a);
+  while i < n {
+    j:int = i
+    while j > 0 {
+      if a[j-1] > a[j] {
+        swap:int = a[j];
+        a[j] = a[j-1];
+        a[j-1] = swap;
+      }
+      j = j-1;
+    }
+    i = i+1;
+  }
+}
+```
+* An array can be constructed by using an array constructor, specifying its elements inside braces. Similar to the array initializer syntax in Java and C, elements of the array constructor are separated by commas, and the final element may be followed by a comma.
+  * Thus, ```{}``` can be used as an array of length ```0```,
+  * Similarly, ```{2,}``` can be used as an array of length ```1```.
+* An array constructor can be used anywhere that an array is expected.
+* __A string literal such as ```"Hello"``` may also be used as an array constructor.__ Given this fact, the following two definitions of an array are equivalent:
+```rust
+a: int[] = { 72,101,108,108,111 };
+a: int[] = "Hello";
+```
+* __String literals may not span multiple lines in the source file.__
+* __Like character literals, each character of a string literal must be a legal Unicode character.__
+* An array of arbitrary length ```n```, whose cells are not initialized, may be created at the point of declaration by including the length in the declaration of the array.
+* __The length is not part of the array’s type and it need not be a constant.__
+* __Use of uninitialized array cells has undefined results (i.e., it is considered undefined behavior).__
+* __Arrays may be compared with ```==``` and ```!=``` to determine whether they are aliases for the same array. Different arrays with the same contents are considered unequal. Arrays are considered pointers basically.__
+* Arrays are implemented by placing the representations of the values of each of their cells contiguously in memory. They also record their lengths.
+* The operator ```+``` may be used to concatenate two arrays whose elements are of the same type, which is particularly handy for arrays of ```int``` representing strings, e.g.:
+```rust
+s: int[] = "Hello" + {13, 10};
+```
+
 #### Multi-Dimensional Arrays
 
 
@@ -162,3 +207,5 @@ setDebug(b: bool) {
 * Honestly, I got a little confused about the following statement declared within the Eta programming language specification: "All global variables in scope may have their value changed by assignments in functions". Does this mean that everytime that I want to change the value of a global variable I must call a specific function that does that for me?
 * What does it mean to say that every binary arithmetic operation operates modulo ```2^64```?
 * What is number crunching and why it may be useful in certain scenarios?
+* The Eta Specification document says that "Like character literals, each character of a string literal must be a legal Unicode character". But what exactly is a legal Unicode character? And how should I represent it inside within a token?
+* I don't think I fully understood this statement: "Arrays are implemented by placing the representations of the values of each of their cells contiguously in memory. They also record their lengths."
