@@ -234,7 +234,13 @@ char Lexer::Peek(int offset) {
 void Lexer::String() {
   while (!IsAtEnd() && Peek(0) != '"') {
     if (Peek(0) == '\n') {
-      line_++;
+      diagnostic_reporter_.Report(
+          std::move(SourceCodeLocation{
+              .source_name = file_path_, .line = line_, .column = column_}),
+          Severity::kFatal,
+          std::format("[E]: A string literal cannot span multiple lines in a "
+                      "source file."));
+      return;
     }
     Advance();
   }
@@ -267,7 +273,7 @@ const std::vector<Token> &Lexer::LexTokens() {
   while (!IsAtEnd()) {
     start_ = current_;
     LexToken();
-    if(diagnostic_reporter_.HasFatalErrors()){
+    if (diagnostic_reporter_.HasFatalErrors()) {
       break;
     }
   }
