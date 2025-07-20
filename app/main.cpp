@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "../lib/include/senbonzakura/diagnostic_reporter.hpp"
-#include "../lib/include/senbonzakura/file_scanner.hpp"
-#include "../lib/include/senbonzakura/lexer.hpp"
+#include "senbonzakura/diagnostic_reporter.hpp"
+#include "senbonzakura/file_scanner.hpp"
+#include "senbonzakura/lexer.hpp"
 
 #include <CLI/CLI.hpp>
 
@@ -15,7 +15,7 @@ int main(int argc, const char **argv) {
   FileScanner file_scanner{file_path, diagnostic_reporter};
 
   file_scanner.ScanFile();
-  const std::string &file_content = file_scanner.GetFileContent();
+  const std::u32string &file_content = file_scanner.GetFileContentCodepoints();
 
   Lexer lexer{file_path, file_content, diagnostic_reporter};
   const std::vector<Token> tokens = lexer.LexTokens();
@@ -25,7 +25,7 @@ int main(int argc, const char **argv) {
       std::cout << token << std::endl;
     }
   }
-  if(diagnostic_reporter.HasFatalErrors()){
+  if (diagnostic_reporter.HasFatalErrors()) {
     diagnostic_reporter.PrintDiagnostic();
     // TODO: Verify if this is the correct exit code for this specific scenario.
     std::exit(64);
