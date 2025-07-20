@@ -1,3 +1,5 @@
+find_package(utf8cpp CONFIG REQUIRED)
+
 add_library(senbonzakura_lib STATIC)
 
 # Adiciona os arquivos de implementação à biblioteca
@@ -14,3 +16,5 @@ target_include_directories(senbonzakura_lib PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
+
+target_link_libraries(senbonzakura_lib PUBLIC utf8::cpp)
