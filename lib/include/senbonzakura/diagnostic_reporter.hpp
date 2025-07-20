@@ -1,8 +1,8 @@
 #pragma once
 
 #include <format>
-#include <string>
 #include <sstream>
+#include <string>
 #include <vector>
 
 enum class Severity {
@@ -24,26 +24,28 @@ std::string SeverityToString(Severity severity);
 template <>
 struct std::formatter<Severity, char> : std::formatter<std::string, char> {
   auto format(Severity severity, std::format_context &ctx) const {
-    return std::formatter<std::string, char>::format(
-        SeverityToString(severity), ctx);
+    return std::formatter<std::string, char>::format(SeverityToString(severity),
+                                                     ctx);
   }
 };
 
 struct SourceCodeLocation {
   std::string source_name;
-  int line;
-  int column;
+  std::size_t line;
+  std::size_t column;
 
-  friend std::ostream &operator<<(std::ostream &os, const SourceCodeLocation &source_code_location);
+  friend std::ostream &
+  operator<<(std::ostream &os, const SourceCodeLocation &source_code_location);
 };
 
 template <>
-struct std::formatter<SourceCodeLocation, char> : std::formatter<std::string, char> {
-    auto format(const SourceCodeLocation& loc, auto& ctx) const {
-        std::stringstream ss;
-        ss << loc;
-        return std::formatter<std::string, char>::format(ss.str(), ctx);
-    }
+struct std::formatter<SourceCodeLocation, char>
+    : std::formatter<std::string, char> {
+  auto format(const SourceCodeLocation &loc, auto &ctx) const {
+    std::stringstream ss;
+    ss << loc;
+    return std::formatter<std::string, char>::format(ss.str(), ctx);
+  }
 };
 
 struct Diagnostic {
@@ -51,7 +53,8 @@ struct Diagnostic {
   SourceCodeLocation source_code_location;
   Severity diagnostic_severity;
 
-  friend std::ostream &operator<<(std::ostream &os, const Diagnostic &diagnostic);
+  friend std::ostream &operator<<(std::ostream &os,
+                                  const Diagnostic &diagnostic);
 };
 
 class DiagnosticReporter {
