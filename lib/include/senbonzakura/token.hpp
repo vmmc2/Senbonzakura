@@ -1,6 +1,6 @@
 #pragma once
 
-#include "token_type.hpp"
+#include "senbonzakura/token_type.hpp"
 
 #include <any>
 #include <string>

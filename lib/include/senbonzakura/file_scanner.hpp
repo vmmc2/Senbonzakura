@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "diagnostic_reporter.hpp"
+#include "senbonzakura/diagnostic_reporter.hpp"
 
 class FileScanner {
 private:

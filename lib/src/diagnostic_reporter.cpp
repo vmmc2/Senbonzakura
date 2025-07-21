@@ -1,4 +1,4 @@
-#include "../include/senbonzakura/diagnostic_reporter.hpp"
+#include "senbonzakura/diagnostic_reporter.hpp"
 
 #include <format>
 #include <iostream>

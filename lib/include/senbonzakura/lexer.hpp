@@ -6,9 +6,9 @@
 #include <string>
 #include <vector>
 
-#include "diagnostic_reporter.hpp"
-#include "token.hpp"
-#include "token_type.hpp"
+#include "senbonzakura/diagnostic_reporter.hpp"
+#include "senbonzakura/token.hpp"
+#include "senbonzakura/token_type.hpp"
 
 class Lexer {
 private:

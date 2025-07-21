@@ -1,4 +1,4 @@
-#include "../include/senbonzakura/token_type.hpp"
+#include "senbonzakura/token_type.hpp"
 
 std::string TokenTypeToString(TokenType token_type) {
   static const std::string token_type_strings[] = {

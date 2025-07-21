@@ -1,4 +1,4 @@
-#include "../include/senbonzakura/token.hpp"
+#include "senbonzakura/token.hpp"
 
 #include <format>
 #include <iostream>
