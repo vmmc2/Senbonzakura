@@ -8,10 +8,10 @@ std::string TokenTypeToString(TokenType token_type) {
       "kStar",        "kSlash",        "kBang",       "kBangEqual",
       "kEqual",       "kEqualEqual",   "kGreater",    "kGreaterEqual",
       "kLess",        "kLessEqual",    "kLogicalAnd", "kLogicalOr",
-      "kHighMul",     "kIdentifier",   "kInteger",    "kString",
-      "kInt",         "kBool",         "kIf",         "kElse",
-      "kWhile",       "kReturn",       "kTrue",       "kFalse",
-      "kLength",      "kUse",          "kFileEnd"};
+      "kHighMul",     "kIdentifier",   "kCharacter",  "kInteger",
+      "kString",      "kInt",          "kBool",       "kIf",
+      "kElse",        "kWhile",        "kReturn",     "kTrue",
+      "kFalse",       "kLength",       "kUse",        "kFileEnd"};
 
   return token_type_strings[static_cast<int>(token_type)];
 }

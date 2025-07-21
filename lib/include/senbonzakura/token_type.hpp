@@ -39,6 +39,7 @@ enum class TokenType {
   kIdentifier,
 
   // Literal Tokens.
+  kCharacter,
   kInteger,
   kString,
 
