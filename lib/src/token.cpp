@@ -65,7 +65,8 @@ std::ostream &operator<<(std::ostream &os, const Token &token) {
                     token.token_type_);
 
   switch (token.token_type_) {
-  case TokenType::kString: {
+  case (TokenType::kCharacter):
+  case (TokenType::kString): {
     try {
       // Tenta converter o 'value_' para std::u32string
       const std::u32string &s_value =
@@ -78,7 +79,7 @@ std::ostream &operator<<(std::ostream &os, const Token &token) {
     }
     break;
   }
-  case TokenType::kInteger: {
+  case (TokenType::kInteger): {
     try {
       int i_value = std::any_cast<int>(token.value_);
       os << std::format(" - Value: {}", i_value);
@@ -87,8 +88,8 @@ std::ostream &operator<<(std::ostream &os, const Token &token) {
     }
     break;
   }
-  case TokenType::kTrue:
-  case TokenType::kFalse: {
+  case (TokenType::kTrue):
+  case (TokenType::kFalse): {
     try {
       bool b_value = std::any_cast<bool>(token.value_);
       os << std::format(" - Value: {}", b_value ? "true" : "false");
@@ -98,7 +99,7 @@ std::ostream &operator<<(std::ostream &os, const Token &token) {
     break;
   }
   default:
-    os << std::format(" - Lexeme: \"{}\"",
+    os << std::format(" - Lexeme: {}",
                       token.lexeme_); // Mantém o lexema para outros tipos
     break;
   }

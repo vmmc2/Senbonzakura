@@ -37,7 +37,85 @@ char32_t Lexer::Advance() {
   return source_code_codepoints_[current_ - 1];
 }
 
-void Lexer::Character() { return; }
+void Lexer::Character() {
+  if (IsAtEnd()) {
+    diagnostic_reporter_.Report(
+        SourceCodeLocation{
+            .source_name = file_path_,
+            .line = line_,
+            .column = column_,
+        },
+        Severity::kFatal,
+        std::format(
+            "[E]: An unterminated character literal was found within the "
+            "source file."));
+    return;
+  }
+
+  if (Peek(0) == U'\'') {
+    diagnostic_reporter_.Report(
+        SourceCodeLocation{
+            .source_name = file_path_,
+            .line = line_,
+            .column = column_,
+        },
+        Severity::kFatal,
+        std::format("[E]: An empty character literal ('') was found within the "
+                    "source file. This is not accepted by Unicode."));
+    return;
+  }
+
+  std::u32string literal_content;
+  char32_t current_char = Advance();
+
+  if (current_char == U'\\') {
+    if (IsAtEnd()) {
+      diagnostic_reporter_.Report(
+          std::move(SourceCodeLocation{
+              .source_name = file_path_, .line = line_, .column = column_}),
+          Severity::kFatal,
+          std::format("[E]: Unfinished escape sequence within a character "
+                      "literal at end of the source "
+                      "file: {}.",
+                      file_path_));
+      return;
+    }
+
+    char32_t escape_char_indicator = Advance();
+    std::optional<char32_t> escaped_cp =
+        ProcessSingleEscape(current_char, escape_char_indicator);
+
+    if (escaped_cp) {
+      literal_content += escaped_cp.value();
+    } else {
+      // The method 'ProcessSingleEscape' already reports an error.
+      return;
+    }
+  } else {
+    literal_content += current_char;
+  }
+
+  // Verifies if the character literal has been correctly terminated.
+  if (IsAtEnd() || Peek(0) != U'\'') {
+    diagnostic_reporter_.Report(
+        std::move(SourceCodeLocation{
+            .source_name = file_path_, .line = line_, .column = column_}),
+        Severity::kFatal,
+        std::format("[E]: A character literal that does not follow the Eta "
+                    "Specification Document was found within the "
+                    "source file."));
+    return;
+  }
+
+  // Consumes the enclosing single-quote character: '\''.
+  Advance();
+
+  AddToken(TokenType::kCharacter, literal_content);
+
+  column_delta_ = current_ - start_;
+
+  return;
+}
 
 // TODO: Verify if it makes sense to add the line: column_delta_ = current_ -
 // start_; at the end of this method.
@@ -387,7 +465,8 @@ void Lexer::String() {
             std::move(SourceCodeLocation{
                 .source_name = file_path_, .line = line_, .column = column_}),
             Severity::kFatal,
-            std::format("[E]: Unfinished escape sequence at end of the source "
+            std::format("[E]: Unfinished escape sequence within a string "
+                        "literal at end of the source "
                         "file: {}.",
                         file_path_));
         return;
