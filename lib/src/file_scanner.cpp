@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <format>
 #include <fstream>
+#include <iostream>
 
 #include <utf8.h>
 #include <utf8/checked.h>
@@ -12,6 +13,14 @@ FileScanner::FileScanner(std::string file_path,
                          DiagnosticReporter &diagnostic_reporter)
     : file_path_(std::move(file_path)),
       diagnostic_reporter_(diagnostic_reporter) {}
+
+const std::string &FileScanner::GetFileContentBytes() const {
+  return file_content_bytes_;
+}
+
+const std::u32string &FileScanner::GetFileContentCodepoints() const {
+  return file_content_codepoints_;
+}
 
 void FileScanner::ScanFile() {
   std::filesystem::path path{file_path_};
@@ -81,6 +90,20 @@ void FileScanner::ScanFile() {
   return;
 }
 
-const std::string &FileScanner::GetFileContentBytes() const { return file_content_bytes_; }
+void FileScanner::OutputTokens(const std::string &eta_filepath,
+                               const std::vector<Token> &tokens) const {
+  std::cout << std::format("****************************** LEXED FILE: {} "
+                           "******************************",
+                           eta_filepath)
+            << std::endl;
+  for (const auto &token : tokens) {
+    if (token.token_type_ != TokenType::kFileEnd) {
+      std::cout << token << std::endl;
+    }
+  }
+  std::cout << std::format("***************************************************"
+                           "***************************************")
+            << std::endl;
 
-const std::u32string &FileScanner::GetFileContentCodepoints() const { return file_content_codepoints_; }
+  return;
+}
