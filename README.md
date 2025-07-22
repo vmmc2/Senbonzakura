@@ -4,11 +4,9 @@
 Compiler written in C++ for the Eta programming language, presented at "CS 4120 - Introduction to Compilers" course from Cornell University.
 
 ## To-Do List for Lexing Stage
-- [ ] Add support for the CLI11 library, so it can be properly used to transform Senbonzakura into a proper CLI tool.
+- [ ] Refine the support for the CLI11 library for the Programming Asssignment 1.
+- [ ] Create a new class called ```FileWriter``` and move some methods from the ```FileScanner``` class to it.
 - [ ] Write unit tests using the GTest library for the implemented classes.
-- [ ] Add support for character literals: "Non-printable and special characters in character and string literal constants should be escaped in the output, as well as Unicode character escapes as described in the Eta Language Specification, but ordinary printable ASCII characters (e.g., 'd') should not be. Comments and whitespace should not appear in the output".
-- [ ] How to deal with the following:
-  - [ ] String and character literals should support some reasonable set of character escapes, including at least ```"\\"```, ```"\n"```, and ```"\'"```.
 - [ ] How to deal with the pseudo-variable concept presented in the Eta Specification Document? Which is represented by ```_```.
 
 ## Overview of Eta Features
