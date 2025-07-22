@@ -4,7 +4,7 @@
 Compiler written in C++ for the Eta programming language, presented at "CS 4120 - Introduction to Compilers" course from Cornell University.
 
 ## To-Do List for Lexing Stage
-- [ ] Refine the support for the CLI11 library for the Programming Asssignment 1.
+- [ ] Refine the support for the CLI11 library for the Programming Assignment 1.
 - [ ] Create a new class called ```FileWriter``` and move some methods from the ```FileScanner``` class to it.
 - [ ] Write unit tests using the GTest library for the implemented classes.
 - [ ] How to deal with the pseudo-variable concept presented in the Eta Specification Document? Which is represented by ```_```.
