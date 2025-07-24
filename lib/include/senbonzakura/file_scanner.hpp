@@ -1,10 +1,8 @@
 #pragma once
 
 #include <string>
-#include <vector>
 
 #include "senbonzakura/diagnostic_reporter.hpp"
-#include "senbonzakura/token.hpp"
 
 class FileScanner {
 private:
@@ -18,6 +16,5 @@ public:
 
   const std::string &GetFileContentBytes() const;
   const std::u32string &GetFileContentCodepoints() const;
-  void OutputTokens(const std::string& eta_filepath, const std::vector<Token>& tokens) const;
   void ScanFile();
 };

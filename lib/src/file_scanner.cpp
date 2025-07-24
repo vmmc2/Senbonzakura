@@ -89,21 +89,3 @@ void FileScanner::ScanFile() {
 
   return;
 }
-
-void FileScanner::OutputTokens(const std::string &eta_filepath,
-                               const std::vector<Token> &tokens) const {
-  std::cout << std::format("****************************** LEXED FILE: {} "
-                           "******************************",
-                           eta_filepath)
-            << std::endl;
-  for (const auto &token : tokens) {
-    if (token.token_type_ != TokenType::kFileEnd) {
-      std::cout << token << std::endl;
-    }
-  }
-  std::cout << std::format("***************************************************"
-                           "***************************************")
-            << std::endl;
-
-  return;
-}
