@@ -6,10 +6,11 @@
 
 #include "senbonzakura/diagnostic_reporter.hpp"
 #include "senbonzakura/file_scanner.hpp"
+#include "senbonzakura/file_writer.hpp"
 #include "senbonzakura/lexer.hpp"
 
 int main(int argc, const char **argv) {
-  std::string generated_diagnostic_directory_path;
+  std::string output_directory_path;
   std::vector<std::string> eta_programs_filepaths;
 
   CLI::App senbonzakura_compiler_app{
@@ -28,7 +29,7 @@ int main(int argc, const char **argv) {
 
   auto d_option = senbonzakura_compiler_app
                       .add_option("-D,--destiny_directory",
-                                  generated_diagnostic_directory_path,
+                                  output_directory_path,
                                   "The directory where the generated "
                                   "diagnostic files will be placed.")
                       ->needs("--lex");
@@ -44,6 +45,8 @@ int main(int argc, const char **argv) {
     return senbonzakura_compiler_app.exit(parse_error);
   }
 
+  FileWriter file_writer{eta_programs_filepaths, output_directory_path};
+
   for (const std::string &current_eta_filepath : eta_programs_filepaths) {
     DiagnosticReporter diagnostic_reporter;
     FileScanner file_scanner{current_eta_filepath, diagnostic_reporter};
@@ -55,7 +58,7 @@ int main(int argc, const char **argv) {
     Lexer lexer{current_eta_filepath, file_content, diagnostic_reporter};
     const std::vector<Token> tokens = lexer.LexTokens();
 
-    file_scanner.OutputTokens(current_eta_filepath, tokens);
+    file_writer.WriteLexerOutput(current_eta_filepath, tokens);
 
     if (diagnostic_reporter.HasFatalErrors()) {
       diagnostic_reporter.PrintDiagnostic();
