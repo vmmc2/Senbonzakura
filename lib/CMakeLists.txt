@@ -5,7 +5,8 @@ add_library(senbonzakura_lib STATIC)
 # Adiciona os arquivos de implementação à biblioteca
 target_sources(senbonzakura_lib PRIVATE
   src/diagnostic_reporter.cpp
-  src/file_scanner.cpp  
+  src/file_scanner.cpp
+  src/file_writer.cpp  
   src/lexer.cpp
   src/token_type.cpp
   src/token.cpp
