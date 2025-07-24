@@ -50,3 +50,6 @@ vcpkg_installed/
 # Eta Files
 *.eta
 *.eti
+
+# Output Directory
+**/output
