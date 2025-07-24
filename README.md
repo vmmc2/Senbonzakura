@@ -126,7 +126,7 @@ setDebug(b: bool) {
 
 ### Booleans
 * The type bool has two values: ```true``` and ```false```.
-* The binary operator ```&``` is a short-circuit ```and``` and the operator ```|``` is short-circuit ```or```. The unary operation ```!``` is negation, also known as ````not```.
+* The binary operator ```&``` is a short-circuit ```and``` and the operator ```|``` is short-circuit ```or```. The unary operation ```!``` is negation, also known as ```not```.
 * Booleans can also be compared using the operators ```==``` and ```!=```.
 
 ### Arrays
