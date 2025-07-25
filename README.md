@@ -10,6 +10,14 @@ Compiler written in C++ for the Eta programming language, presented at "CS 4120 
 - [ ] Learn how to deal with a default output directory in modern C++ in case the user does not pass the optional ```-D``` argument when it executes the ```--lex``` command.
 - [ ] Write unit tests using the GTest library for the implemented classes.
 - [ ] How to deal with the pseudo-variable concept presented in the Eta Specification Document? Which is represented by ```_```.
+- [ ] __Check that the code related to the Lexing stage is following the Google C++ Style Guide.__
+
+## To-Do List for Parsing Stage
+- [ ] Study Pratt-Parsing to check if it is okay to addopt it and mesh it with Recursive-Descent Parsing, when dealing with arithmetical expressions.
+- [ ] Consult books and other resources about how to properly implement the ```Parser``` in an incremental manner.
+- [ ] Study a lot about OOP in C++. I think I gonna need it a lot. As well as templates.
+- [ ] Make a pretty printer for the generated AST.
+- [ ] Evaluate the possibility of generating the AST in a way that it can be given directly to LLVM so it can generate code for desired target architectures.
 
 ## Overview of Eta Features
 * __Eta programs consist of a single source file containing definitions of one or more functions.__
