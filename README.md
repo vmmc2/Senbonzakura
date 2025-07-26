@@ -9,7 +9,6 @@ Compiler written in C++ for the Eta programming language, presented at "CS 4120 
 - [ ] Prepare a folder for the files that will be tested.
 - [ ] Learn how to deal with a default output directory in modern C++ in case the user does not pass the optional ```-D``` argument when it executes the ```--lex``` command.
 - [ ] Write unit tests using the GTest library for the implemented classes.
-- [ ] How to deal with the pseudo-variable concept presented in the Eta Specification Document? Which is represented by ```_```.
 - [ ] __Check that the code related to the Lexing stage is following the Google C++ Style Guide.__
 
 ## To-Do List for Parsing Stage
