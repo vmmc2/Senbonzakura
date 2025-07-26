@@ -17,16 +17,37 @@ std::ostream &operator<<(std::ostream &os,
   return os;
 }
 
-std::ostream &operator<<(std::ostream &os, const Diagnostic &diagnostic) {
-  os << std::format(
-      "[{}] - [Location]:{} - [Message]:{}", diagnostic.diagnostic_severity,
-      diagnostic.source_code_location, diagnostic.diagnostic_message);
+std::ostream &operator<<(std::ostream &os,
+                         const CompilerError &compiler_error) {
+  os << std::format("[{}] - [Location]:{} - [Message]:{}",
+                    compiler_error.compiler_error_severity,
+                    compiler_error.source_code_location,
+                    compiler_error.compiler_error_message);
   return os;
 }
 
-void DiagnosticReporter::Report(SourceCodeLocation loc, Severity sev,
-                                std::string msg) {
-  diagnostics_.push_back(Diagnostic(std::move(msg), loc, sev));
+std::ostream &operator<<(std::ostream &os, const SystemError &system_error) {
+  os << std::format("[{}] - [Message]:{}", system_error.system_error_severity,
+                    system_error.system_error_message);
+  return os;
+}
+
+void DiagnosticReporter::ReportCompilerError(SourceCodeLocation loc,
+                                             Severity sev, std::string msg) {
+  compiler_errors_.emplace_back(CompilerError(std::move(msg), loc, sev));
+  if (sev == Severity::kWarning) {
+    warning_count_++;
+  } else if (sev == Severity::kError) {
+    normal_error_count_++;
+  } else {
+    fatal_error_count_++;
+  }
+
+  return;
+}
+
+void DiagnosticReporter::ReportSystemError(Severity sev, std::string msg) {
+  system_errors_.emplace_back(SystemError(std::move(msg), sev));
   if (sev == Severity::kWarning) {
     warning_count_++;
   } else if (sev == Severity::kError) {
@@ -48,9 +69,17 @@ bool DiagnosticReporter::HasNormalErrors() const {
 
 bool DiagnosticReporter::HasWarnings() const { return warning_count_ > 0; }
 
-void DiagnosticReporter::PrintDiagnostic() const {
-  for (const Diagnostic &curr_diagnostic : diagnostics_) {
-    std::cout << curr_diagnostic << std::endl;
+void DiagnosticReporter::OutputCompilerErrors() const {
+  for (const CompilerError &curr_compiler_error : compiler_errors_) {
+    std::cout << curr_compiler_error << std::endl;
+  }
+
+  return;
+}
+
+void DiagnosticReporter::OutputSystemErrors() const {
+  for (const SystemError &curr_system_error : system_errors_) {
+    std::cout << curr_system_error << std::endl;
   }
 
   return;

@@ -48,26 +48,37 @@ struct std::formatter<SourceCodeLocation, char>
   }
 };
 
-struct Diagnostic {
-  std::string diagnostic_message;
+struct CompilerError {
+  std::string compiler_error_message;
   SourceCodeLocation source_code_location;
-  Severity diagnostic_severity;
+  Severity compiler_error_severity;
 
   friend std::ostream &operator<<(std::ostream &os,
-                                  const Diagnostic &diagnostic);
+                                  const CompilerError &compiler_error);
+};
+
+struct SystemError {
+  std::string system_error_message;
+  Severity system_error_severity;
+
+  friend std::ostream &operator<<(std::ostream &os,
+                                  const SystemError &system_error);
 };
 
 class DiagnosticReporter {
 private:
-  std::vector<Diagnostic> diagnostics_;
+  std::vector<CompilerError> compiler_errors_;
+  std::vector<SystemError> system_errors_;
   int warning_count_ = 0;
   int normal_error_count_ = 0;
   int fatal_error_count_ = 0;
 
 public:
-  void Report(SourceCodeLocation loc, Severity sev, std::string msg);
+  void ReportCompilerError(SourceCodeLocation loc, Severity sev, std::string msg);
+  void ReportSystemError(Severity sev, std::string msg);
   bool HasWarnings() const;
   bool HasNormalErrors() const;
   bool HasFatalErrors() const;
-  void PrintDiagnostic() const;
+  void OutputCompilerErrors() const;
+  void OutputSystemErrors() const;
 };
