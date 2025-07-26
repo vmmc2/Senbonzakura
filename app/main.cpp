@@ -61,10 +61,9 @@ int main(int argc, const char **argv) {
     file_writer.WriteLexerOutput(current_eta_filepath, tokens);
 
     if (diagnostic_reporter.HasFatalErrors()) {
-      diagnostic_reporter.PrintDiagnostic();
-      // TODO: Verify if this is the correct exit code for this specific
-      // scenario.
-      std::exit(64);
+      diagnostic_reporter.OutputSystemErrors();
+      diagnostic_reporter.OutputCompilerErrors();
+      return 0;
     }
   }
 
