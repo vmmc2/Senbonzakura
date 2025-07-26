@@ -39,7 +39,7 @@ char32_t Lexer::Advance() {
 
 void Lexer::Character() {
   if (IsAtEnd()) {
-    diagnostic_reporter_.Report(
+    diagnostic_reporter_.ReportCompilerError(
         SourceCodeLocation{
             .source_name = file_path_,
             .line = line_,
@@ -53,7 +53,7 @@ void Lexer::Character() {
   }
 
   if (Peek(0) == U'\'') {
-    diagnostic_reporter_.Report(
+    diagnostic_reporter_.ReportCompilerError(
         SourceCodeLocation{
             .source_name = file_path_,
             .line = line_,
@@ -70,7 +70,7 @@ void Lexer::Character() {
 
   if (current_char == U'\\') {
     if (IsAtEnd()) {
-      diagnostic_reporter_.Report(
+      diagnostic_reporter_.ReportCompilerError(
           std::move(SourceCodeLocation{
               .source_name = file_path_, .line = line_, .column = column_}),
           Severity::kFatal,
@@ -97,7 +97,7 @@ void Lexer::Character() {
 
   // Verifies if the character literal has been correctly terminated.
   if (IsAtEnd() || Peek(0) != U'\'') {
-    diagnostic_reporter_.Report(
+    diagnostic_reporter_.ReportCompilerError(
         std::move(SourceCodeLocation{
             .source_name = file_path_, .line = line_, .column = column_}),
         Severity::kFatal,
@@ -307,7 +307,7 @@ void Lexer::LexToken() {
     } else if (IsDigit(current_char)) {
       Integer();
     } else {
-      diagnostic_reporter_.Report(
+      diagnostic_reporter_.ReportCompilerError(
           std::move(SourceCodeLocation{
               .source_name = file_path_, .line = line_, .column = column_}),
           Severity::kFatal,
@@ -370,7 +370,7 @@ Lexer::ProcessSingleEscape(char32_t current_backslash_char,
 
       // Verifies the enclosing of the sequence and if it is valid.
       if (hex_digits.empty() || Peek(0) != U'}') {
-        diagnostic_reporter_.Report(
+        diagnostic_reporter_.ReportCompilerError(
             std::move(SourceCodeLocation{
                 .source_name = file_path_, .line = line_, .column = column_}),
             Severity::kFatal,
@@ -380,7 +380,7 @@ Lexer::ProcessSingleEscape(char32_t current_backslash_char,
         return std::nullopt;
       }
       if (hex_digits.length() == 0) {
-        diagnostic_reporter_.Report(
+        diagnostic_reporter_.ReportCompilerError(
             std::move(SourceCodeLocation{
                 .source_name = file_path_, .line = line_, .column = column_}),
             Severity::kFatal,
@@ -397,7 +397,7 @@ Lexer::ProcessSingleEscape(char32_t current_backslash_char,
             std::stoul(U32StringToUtf8(hex_digits), nullptr, 16);
         return static_cast<char32_t>(unicode_value);
       } catch (const std::out_of_range &oor) {
-        diagnostic_reporter_.Report(
+        diagnostic_reporter_.ReportCompilerError(
             std::move(SourceCodeLocation{
                 .source_name = file_path_, .line = line_, .column = column_}),
             Severity::kFatal,
@@ -406,7 +406,7 @@ Lexer::ProcessSingleEscape(char32_t current_backslash_char,
                         U32StringToUtf8(hex_digits)));
         return std::nullopt;
       } catch (const std::invalid_argument &ia) {
-        diagnostic_reporter_.Report(
+        diagnostic_reporter_.ReportCompilerError(
             std::move(SourceCodeLocation{
                 .source_name = file_path_, .line = line_, .column = column_}),
             Severity::kFatal,
@@ -415,8 +415,8 @@ Lexer::ProcessSingleEscape(char32_t current_backslash_char,
                         U32StringToUtf8(hex_digits)));
         return std::nullopt;
       }
-    } else { // É '\x' mas não é '\x{'
-      diagnostic_reporter_.Report(
+    } else { // It is '\x', but it is not '\x{'.
+      diagnostic_reporter_.ReportCompilerError(
           std::move(SourceCodeLocation{
               .source_name = file_path_, .line = line_, .column = column_}),
           Severity::kFatal,
@@ -426,7 +426,7 @@ Lexer::ProcessSingleEscape(char32_t current_backslash_char,
     }
   }
   default:
-    diagnostic_reporter_.Report(
+    diagnostic_reporter_.ReportCompilerError(
         std::move(SourceCodeLocation{
             .source_name = file_path_, .line = line_, .column = column_}),
         Severity::kFatal,
@@ -434,14 +434,6 @@ Lexer::ProcessSingleEscape(char32_t current_backslash_char,
             "[E]: Unknown escape sequence present within the source file."));
     return std::nullopt;
   }
-}
-
-void Lexer::ReportError(const std::string &message, unsigned int col_offset) {
-  diagnostic_reporter_.Report(
-      std::move(SourceCodeLocation{.source_name = file_path_,
-                                   .line = line_,
-                                   .column = column_ + col_offset}),
-      Severity::kFatal, message);
 }
 
 void Lexer::String() {
@@ -453,7 +445,7 @@ void Lexer::String() {
     if (current_char == U'\n') {
       line_++;
       column_ = 1;
-      diagnostic_reporter_.Report(
+      diagnostic_reporter_.ReportCompilerError(
           std::move(SourceCodeLocation{
               .source_name = file_path_, .line = line_, .column = column_}),
           Severity::kFatal,
@@ -464,7 +456,7 @@ void Lexer::String() {
 
     if (current_char == U'\\') {
       if (IsAtEnd()) {
-        diagnostic_reporter_.Report(
+        diagnostic_reporter_.ReportCompilerError(
             std::move(SourceCodeLocation{
                 .source_name = file_path_, .line = line_, .column = column_}),
             Severity::kFatal,
@@ -492,7 +484,7 @@ void Lexer::String() {
 
   // Verifies if the string literal has been correctly terminated.
   if (IsAtEnd() || Peek(0) != U'"') {
-    diagnostic_reporter_.Report(
+    diagnostic_reporter_.ReportCompilerError(
         std::move(SourceCodeLocation{
             .source_name = file_path_, .line = line_, .column = column_}),
         Severity::kFatal,
