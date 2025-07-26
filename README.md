@@ -4,12 +4,9 @@
 Compiler written in C++ for the Eta programming language, presented at "CS 4120 - Introduction to Compilers" course from Cornell University.
 
 ## To-Do List for Lexing Stage
-- [ ] Think about how to deal with errors that are not errors present within the source code, but rather system errors.
 - [ ] Put some kind of feedback to the user, indicating that the compilation steps have been successful.
-- [ ] Prepare a folder for the files that will be tested.
-- [ ] Learn how to deal with a default output directory in modern C++ in case the user does not pass the optional ```-D``` argument when it executes the ```--lex``` command.
 - [ ] Write unit tests using the GTest library for the implemented classes.
-- [ ] __Check that the code related to the Lexing stage is following the Google C++ Style Guide.__
+- [ ] __Check if the code related to the Lexing stage is following the Google C++ Style Guide.__
 
 ## To-Do List for Parsing Stage
 - [ ] Study Pratt-Parsing to check if it is okay to addopt it and mesh it with Recursive-Descent Parsing, when dealing with arithmetical expressions.
