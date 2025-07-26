@@ -19,6 +19,7 @@ enum class TokenType {
   kRemainder,
   kStar,
   kSlash,
+  kUnderscore, // Represents a pseudo-variable '_' in the source code.
 
   // Single or Double Character Tokens.
   kBang,
