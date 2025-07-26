@@ -45,6 +45,10 @@ int main(int argc, const char **argv) {
     return senbonzakura_compiler_app.exit(parse_error);
   }
 
+  if(d_option->empty()){
+    output_directory_path = std::string{PROJECT_ROOT_DIR} + "/output";
+  }
+
   FileWriter file_writer{eta_programs_filepaths, output_directory_path};
 
   for (const std::string &current_eta_filepath : eta_programs_filepaths) {
