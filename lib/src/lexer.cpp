@@ -241,6 +241,9 @@ void Lexer::LexToken() {
       AddToken(TokenType::kSlash);
     }
     break;
+  case (U'_'):
+    AddToken(TokenType::kUnderscore);
+    break;
   case (U'!'):
     if (Peek(0) == U'=') {
       Advance();
