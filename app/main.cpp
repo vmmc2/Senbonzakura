@@ -1,3 +1,4 @@
+#include <format>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -27,12 +28,12 @@ int main(int argc, const char **argv) {
       ->delimiter(' ')
       ->expected(1, -1);
 
-  auto d_option = senbonzakura_compiler_app
-                      .add_option("-D,--destiny_directory",
-                                  output_directory_path,
-                                  "The directory where the generated "
-                                  "diagnostic files will be placed.")
-                      ->needs("--lex");
+  auto d_option =
+      senbonzakura_compiler_app
+          .add_option("-D,--destiny_directory", output_directory_path,
+                      "The directory where the generated "
+                      "diagnostic files will be placed.")
+          ->needs("--lex");
 
   try {
     CLI11_PARSE(senbonzakura_compiler_app, argc, argv);
@@ -45,7 +46,7 @@ int main(int argc, const char **argv) {
     return senbonzakura_compiler_app.exit(parse_error);
   }
 
-  if(d_option->empty()){
+  if (d_option->empty()) {
     output_directory_path = std::string{PROJECT_ROOT_DIR} + "/output";
   }
 
@@ -68,6 +69,12 @@ int main(int argc, const char **argv) {
       diagnostic_reporter.OutputSystemErrors();
       diagnostic_reporter.OutputCompilerErrors();
       return 0;
+    } else {
+      std::cout << std::format("[SUCCESS]: Lexing step regarding the file '{}' has been "
+                               "successfully performed. The corresponding "
+                               "'.lexed' file has been stored at '{}'.",
+                               current_eta_filepath, output_directory_path)
+                << std::endl;
     }
   }
 
