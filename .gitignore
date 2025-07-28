@@ -47,9 +47,5 @@ vcpkg_installed/
 .vscode/
 .idea/
 
-# Eta Files
-*.eta
-*.eti
-
 # Output Directory
 **/output
