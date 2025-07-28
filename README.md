@@ -4,9 +4,33 @@
 Compiler written in C++ for the Eta programming language, presented at "CS 4120 - Introduction to Compilers" course from Cornell University.
 
 ## To-Do List for Lexing Stage
-- [ ] Put some kind of feedback to the user, indicating that the compilation steps have been successful.
-- [ ] Write unit tests using the GTest library for the implemented classes.
+- [ ] __Search for a OS-Agnostic colorized output C++ library that is present inside the ```vcpkg``` repository.__
+- [ ] __Write tests using the GTest library for the Lexing stage.__
 - [ ] __Check if the code related to the Lexing stage is following the Google C++ Style Guide.__
+  * __app__
+    - [ ] main.cpp
+  * __lib/include/senbonzakura__
+    - [ ] diagnostic_reporter.hpp
+    - [ ] file_scanner.hpp
+    - [ ] file_writer.hpp
+    - [ ] lexer.hpp
+    - [ ] token_type.hpp
+    - [ ] token.hpp
+  * __lib/src__
+    - [ ] diagnostic_reporter.cpp
+    - [ ] file_scanner.cpp
+    - [ ] file_writer.cpp
+    - [ ] lexer.cpp
+    - [ ] token_type.cpp
+    - [ ] token.cpp
+  * __tests__
+    - [ ] diagnostic_reporter_test.cpp
+    - [ ] file_scanner_test.cpp
+    - [ ] file_writer_test.cpp
+    - [ ] lexer_test.cpp
+    - [ ] token_type_test.cpp
+    - [ ] token_test.cpp
+ 
 
 ## To-Do List for Parsing Stage
 - [ ] Study Pratt-Parsing to check if it is okay to addopt it and mesh it with Recursive-Descent Parsing, when dealing with arithmetical expressions.
