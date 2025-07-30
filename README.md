@@ -4,7 +4,6 @@
 Compiler written in C++ for the Eta programming language, presented at "CS 4120 - Introduction to Compilers" course from Cornell University.
 
 ## To-Do List for Lexing Stage
-- [ ] __Search for a OS-Agnostic colorized output C++ library that is present inside the ```vcpkg``` repository.__
 - [ ] __Write tests using the GTest library for the Lexing stage.__
 - [ ] __Check if the code related to the Lexing stage is following the Google C++ Style Guide.__
   * __app__
