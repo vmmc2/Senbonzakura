@@ -2,8 +2,12 @@
 
 #include <format>
 #include <iostream>
+#include <string>
 
-std::string SeverityToString(Severity severity) {
+const std::string kAnsiRed = "\033[31m";
+const std::string kAnsiReset = "\033[0m";
+
+std::string SeverityTo1String(Severity severity) {
   static const std::string severity_strings[] = {"Warning", "Error", "Fatal"};
 
   return severity_strings[static_cast<int>(severity)];
@@ -71,7 +75,7 @@ bool DiagnosticReporter::HasWarnings() const { return warning_count_ > 0; }
 
 void DiagnosticReporter::OutputCompilerErrors() const {
   for (const CompilerError &curr_compiler_error : compiler_errors_) {
-    std::cout << curr_compiler_error << std::endl;
+    std::cout << kAnsiRed << curr_compiler_error << kAnsiReset << std::endl;
   }
 
   return;
@@ -79,7 +83,7 @@ void DiagnosticReporter::OutputCompilerErrors() const {
 
 void DiagnosticReporter::OutputSystemErrors() const {
   for (const SystemError &curr_system_error : system_errors_) {
-    std::cout << curr_system_error << std::endl;
+    std::cout << kAnsiRed << curr_system_error << kAnsiReset << std::endl;
   }
 
   return;
