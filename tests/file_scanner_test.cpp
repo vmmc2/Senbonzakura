@@ -1,1 +1,1 @@
-#include "../lib/include/senbonzakura/file_scanner.hpp"
+#include "senbonzakura/file_scanner.hpp"
