@@ -8,6 +8,7 @@ target_sources(senbonzakura_lib PRIVATE
   src/file_scanner.cpp
   src/file_writer.cpp  
   src/lexer.cpp
+  src/parser.cpp
   src/token_type.cpp
   src/token.cpp
 )
