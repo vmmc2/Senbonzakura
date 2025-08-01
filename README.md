@@ -38,6 +38,13 @@ Compiler written in C++ for the Eta programming language, presented at "CS 4120 
 - [ ] Make a pretty printer for the generated AST.
 - [ ] Evaluate the possibility of generating the AST in a way that it can be given directly to LLVM so it can generate code for desired target architectures.
 
+## Commands to Execute Tests
+```sh
+cd build
+cmake --build .
+ctest
+```
+
 ## Overview of Eta Features
 * __Eta programs consist of a single source file containing definitions of one or more functions.__
   * Execution of a program consists of evaluating a call to the distinguished function named ```main```.
