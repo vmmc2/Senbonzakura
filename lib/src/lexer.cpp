@@ -17,7 +17,7 @@ Lexer::Lexer(const std::string &file_path,
       diagnostic_reporter_(diagnostic_reporter) {}
 
 void Lexer::AddToken(TokenType token_type) {
-  AddToken(token_type, nullptr);
+  AddToken(token_type, {});
 
   return;
 }
