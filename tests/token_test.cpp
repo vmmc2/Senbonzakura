@@ -20,4 +20,11 @@ TEST(TokenTest, TokenConstructorTest) {
   EXPECT_EQ(integer_token.value_.has_value(), true);
   EXPECT_EQ(std::any_cast<int>(integer_token.value_), 100);
   EXPECT_EQ(integer_token.lexeme_, "100");
+
+  Token file_end_token{500, 1, TokenType::kFileEnd, {}, ""};
+  EXPECT_EQ(file_end_token.line_, 500);
+  EXPECT_EQ(file_end_token.column_, 1);
+  EXPECT_EQ(file_end_token.token_type_, TokenType::kFileEnd);
+  EXPECT_EQ(file_end_token.value_.has_value(), false);
+  EXPECT_EQ(file_end_token.lexeme_, "");
 }
