@@ -527,7 +527,7 @@ const std::vector<Token> &Lexer::LexTokens() {
   }
   // Add a file end token at the end of the token sequence in order to make the
   // parsing stage easier.
-  tokens_.emplace_back(Token(line_, column_, TokenType::kFileEnd, nullptr, ""));
+  tokens_.emplace_back(Token(line_, column_, TokenType::kFileEnd, {}, ""));
 
   return tokens_;
 }
