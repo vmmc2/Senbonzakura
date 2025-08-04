@@ -4,6 +4,7 @@
 #include <any>
 
 #include <gtest/gtest.h>
+#include <string>
 
 TEST(TokenTest, TokenConstructorTest) {
   Token identifier_token{1, 5, TokenType::kIdentifier, {}, "x"};
@@ -27,4 +28,12 @@ TEST(TokenTest, TokenConstructorTest) {
   EXPECT_EQ(file_end_token.token_type_, TokenType::kFileEnd);
   EXPECT_EQ(file_end_token.value_.has_value(), false);
   EXPECT_EQ(file_end_token.lexeme_, "");
+
+  Token string_literal_token{1, 5, TokenType::kString, "Hello World!",
+                             "Hello, Worl\\x{64}!"};
+  EXPECT_EQ(string_literal_token.line_, 1);
+  EXPECT_EQ(string_literal_token.column_, 5);
+  EXPECT_EQ(string_literal_token.token_type_, TokenType::kString);
+  EXPECT_EQ(string_literal_token.value_.has_value(), true);
+  EXPECT_EQ(string_literal_token.lexeme_, "Hello, Worl\\x{64}!");
 }
