@@ -32,8 +32,10 @@ std::u32string EscapeU32StringForDisplay(const std::u32string &u32str) {
       break; // Retorno de carro -> \r
     case U'\\':
       escaped_str += U"\\\\";
-      break; // Barra invertida -> \\
-            case U'"':  escaped_str += U"\\\""; break;  // Aspa dupla -> \"
+      break; // Barra invertida -> 
+    case U'"': 
+      escaped_str += U"\\\"";
+      break;  // Aspa dupla -> \"
       // Adicione outros escapes comuns se necessário (ex: \0, \a, \b, \f, \v)
     default:
       // Caracteres ASCII imprimíveis (sem escapamento especial acima)

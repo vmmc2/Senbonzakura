@@ -5,6 +5,10 @@
 #include <any>
 #include <string>
 
+std::string U32StringToUtf8(const std::u32string &u32str);
+
+std::u32string EscapeU32StringForDisplay(const std::u32string &u32str);
+
 class Token {
 public:
   Token(int line, int column, TokenType token_type, std::any value,
