@@ -2,9 +2,39 @@
 #include "senbonzakura/token_type.hpp"
 
 #include <any>
+#include <string>
 
 #include <gtest/gtest.h>
-#include <string>
+
+TEST(TokenHelpersTest, U32StringToUtf8CorversionTest) {
+  // Test with a 'Smiley Face' emoji.
+  std::u32string u32_str = U"Hello, World! \U0001F60A";
+  std::string expected_utf8_str = "Hello, World! 😊";
+  EXPECT_EQ(U32StringToUtf8(u32_str), expected_utf8_str);
+}
+
+TEST(TokenHelpersTest,
+     EscapeU32StringForDisplayCorrectlyEscapeSpecialCharsTest) {
+  std::u32string u32str = U"A string with \"\n\t\r quotes and line breaks.";
+  std::u32string expected_escaped =
+      U"A string with \\\"\\n\\t\\r quotes and line breaks.";
+
+  EXPECT_EQ(EscapeU32StringForDisplay(u32str), expected_escaped);
+}
+
+TEST(TokenHelpersTest, EscapeU32StringForDisplayCorrectlyFormatUnicodeTest) {
+  // Unicode character outside of the ASCII range (Example: Copyright symbol).
+  std::u32string u32str = U"Hello, \u00A9!";
+  // Expected result is the string: 'Hello, ' + escape for the copyright symbol
+  // + '!'
+  std::u32string expected_escaped = U"Hello, \\x{a9}!";
+  EXPECT_EQ(EscapeU32StringForDisplay(u32str), expected_escaped);
+
+  // Emoji (A UTF-32 character of 4 bytes).
+  std::u32string emoji_str = U"\U0001F60A";
+  std::u32string expected_emoji_escaped = U"\\x{1f60a}";
+  EXPECT_EQ(EscapeU32StringForDisplay(emoji_str), expected_emoji_escaped);
+}
 
 TEST(TokenTest, TokenConstructorTest) {
   Token identifier_token{1, 5, TokenType::kIdentifier, {}, "x"};
