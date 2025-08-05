@@ -2,6 +2,7 @@
 #include "senbonzakura/token_type.hpp"
 
 #include <any>
+#include <sstream>
 #include <string>
 
 #include <gtest/gtest.h>
@@ -67,3 +68,22 @@ TEST(TokenTest, TokenConstructorTest) {
   EXPECT_EQ(string_literal_token.value_.has_value(), true);
   EXPECT_EQ(string_literal_token.lexeme_, "Hello, Worl\\x{64}!");
 }
+
+TEST(TokenTest, OperatorPrintsIntegerCorrectlyTest) {
+  Token integer_token{1, 3, TokenType::kInteger, 12345, "12345"};
+
+  std::stringstream ss;
+  ss << integer_token;
+
+  std::string expected_output{
+      "[001:003] Type: kInteger - Value: 12345"};
+  EXPECT_EQ(ss.str(), expected_output);
+}
+
+TEST(TokenTest, OperatorPrintsBooleanCorrectlyTest) {}
+
+TEST(TokenTest, OperatorPrintsStringLiteralCorrectlyTest) {}
+
+TEST(TokenTest, OperatorPrintsCharLiteralCorrectlyTest) {}
+
+TEST(TokenTest, OperatorPrintsDefaultLexemeCorrectlyTest) {}
