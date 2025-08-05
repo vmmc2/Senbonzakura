@@ -75,12 +75,29 @@ TEST(TokenTest, OperatorPrintsIntegerCorrectlyTest) {
   std::stringstream ss;
   ss << integer_token;
 
-  std::string expected_output{
-      "[001:003] Type: kInteger - Value: 12345"};
+  std::string expected_output{"[001:003] Type: kInteger - Value: 12345"};
   EXPECT_EQ(ss.str(), expected_output);
 }
 
-TEST(TokenTest, OperatorPrintsBooleanCorrectlyTest) {}
+TEST(TokenTest, OperatorPrintsBooleanCorrectlyTest) {
+  Token truthy_boolean_token{10, 4, TokenType::kTrue, true, "true"};
+  Token falsey_boolean_token{11, 4, TokenType::kFalse, false, "false"};
+
+  std::stringstream ss;
+  ss << truthy_boolean_token;
+
+  std::string expected_truthy_boolean_output =
+      "[010:004] Type: kTrue - Value: true";
+  EXPECT_EQ(ss.str(), expected_truthy_boolean_output);
+
+  ss.str("");
+  ss.clear();
+  ss << falsey_boolean_token;
+
+  std::string expected_falsey_boolean_output =
+      "[011:004] Type: kFalse - Value: false";
+  EXPECT_EQ(ss.str(), expected_falsey_boolean_output);
+}
 
 TEST(TokenTest, OperatorPrintsStringLiteralCorrectlyTest) {}
 
