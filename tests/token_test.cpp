@@ -99,7 +99,19 @@ TEST(TokenTest, OperatorPrintsBooleanCorrectlyTest) {
   EXPECT_EQ(ss.str(), expected_falsey_boolean_output);
 }
 
-TEST(TokenTest, OperatorPrintsStringLiteralCorrectlyTest) {}
+TEST(TokenTest, OperatorPrintsStringLiteralCorrectlyTest) {
+  std::u32string u32_str = U"Hello, World!\n";
+  Token string_literal_token{23, 2, TokenType::kString, u32_str,
+                             "Hello, Worl\x{64}!\n"};
+
+  std::stringstream ss;
+  ss << string_literal_token;
+
+  std::string expected_output =
+      "[023:002] Type: kString - Value: Hello, World!\\n";
+
+  EXPECT_EQ(ss.str(), expected_output);
+}
 
 TEST(TokenTest, OperatorPrintsCharLiteralCorrectlyTest) {}
 
