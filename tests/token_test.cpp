@@ -125,4 +125,48 @@ TEST(TokenTest, OperatorPrintsCharLiteralCorrectlyTest) {
   EXPECT_EQ(ss.str(), expected_output);
 }
 
-TEST(TokenTest, OperatorPrintsDefaultLexemeCorrectlyTest) {}
+TEST(TokenTest, OperatorPrintsDefaultLexemeCorrectlyTest) {
+  Token single_character_token{1, 1, TokenType::kColon, {}, ":"};
+  Token double_character_token{2, 1, TokenType::kEqualEqual, {}, "=="};
+  Token triple_character_token{3, 1, TokenType::kHighMul, {}, "*>>"};
+  Token identifier_token{4, 1, TokenType::kIdentifier, {}, "foo"};
+  Token primitive_type_token{5, 1, TokenType::kInt, {}, "int"};
+  Token keyword_token{6, 1, TokenType::kIf, {}, "if"};
+  Token file_end_token{7, 1, TokenType::kFileEnd, {}, ""};
+
+  std::stringstream ss;
+
+  ss << single_character_token;
+  std::string expected_output = "[001:001] Type: kColon - Lexeme: :";
+  EXPECT_EQ(ss.str(), expected_output);
+
+  ss.str("");
+  ss << double_character_token;
+  expected_output = "[002:001] Type: kEqualEqual - Lexeme: ==";
+  EXPECT_EQ(ss.str(), expected_output);
+
+  ss.str("");
+  ss << triple_character_token;
+  expected_output = "[003:001] Type: kHighMul - Lexeme: *>>";
+  EXPECT_EQ(ss.str(), expected_output);
+
+  ss.str("");
+  ss << identifier_token;
+  expected_output = "[004:001] Type: kIdentifier - Lexeme: foo";
+  EXPECT_EQ(ss.str(), expected_output);
+
+  ss.str("");
+  ss << primitive_type_token;
+  expected_output = "[005:001] Type: kInt - Lexeme: int";
+  EXPECT_EQ(ss.str(), expected_output);
+
+  ss.str("");
+  ss << keyword_token;
+  expected_output = "[006:001] Type: kIf - Lexeme: if";
+  EXPECT_EQ(ss.str(), expected_output);
+
+  ss.str("");
+  ss << file_end_token;
+  expected_output = "[007:001] Type: kFileEnd - Lexeme: ";
+  EXPECT_EQ(ss.str(), expected_output);
+}
