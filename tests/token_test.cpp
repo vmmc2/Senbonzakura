@@ -113,6 +113,16 @@ TEST(TokenTest, OperatorPrintsStringLiteralCorrectlyTest) {
   EXPECT_EQ(ss.str(), expected_output);
 }
 
-TEST(TokenTest, OperatorPrintsCharLiteralCorrectlyTest) {}
+TEST(TokenTest, OperatorPrintsCharLiteralCorrectlyTest) {
+  std::u32string u32_ch = U"d";
+  Token character_literal_token{1, 1, TokenType::kCharacter, u32_ch, "\x{64}"};
+
+  std::stringstream ss;
+  ss << character_literal_token;
+
+  std::string expected_output = "[001:001] Type: kCharacter - Value: d";
+
+  EXPECT_EQ(ss.str(), expected_output);
+}
 
 TEST(TokenTest, OperatorPrintsDefaultLexemeCorrectlyTest) {}
