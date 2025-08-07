@@ -10,6 +10,14 @@ FileWriter::FileWriter(const std::vector<std::string> &eta_programs_filepaths,
     : eta_programs_filepaths_{eta_programs_filepaths},
       output_directory_{std::move(output_directory)} {}
 
+const std::vector<std::string> &FileWriter::GetProgramFilepaths() const {
+  return eta_programs_filepaths_;
+}
+
+const std::string &FileWriter::GetOutputDirectory() const {
+  return output_directory_;
+}
+
 void FileWriter::WriteLexerOutput(const std::string &current_eta_filepath_str,
                                   std::vector<Token> tokens) const {
   std::filesystem::path current_eta_file_path{current_eta_filepath_str};
