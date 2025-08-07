@@ -1,5 +1,6 @@
 #include "senbonzakura/file_writer.hpp"
 
+#include <filesystem>
 #include <string>
 #include <vector>
 
@@ -15,3 +16,21 @@ TEST(FileWriterTest, FileWriterConstructorTest) {
   EXPECT_EQ(file_writer.GetProgramFilepaths(), programs_filepaths);
   EXPECT_EQ(file_writer.GetOutputDirectory(), output_directory);
 }
+
+class FileWriterTest : public ::testing::Test {
+protected:
+  // Temporary directory for the tests.
+  std::string temp_dir_path;
+
+  void SetUp() override {
+    // Unique name for the temporary directory.
+    temp_dir_path =
+        std::filesystem::temp_directory_path().string() + "/test_output_dir";
+    std::filesystem::create_directory(temp_dir_path);
+  }
+
+  void TearDown() override {
+    // Clean the temporary directory and its contents.
+    std::filesystem::remove_all(temp_dir_path);
+  }
+};
