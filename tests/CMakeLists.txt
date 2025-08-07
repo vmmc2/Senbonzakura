@@ -4,6 +4,7 @@ find_package(GTest REQUIRED)
 add_executable(senbonzakura_tests
   diagnostic_reporter_test.cpp
   file_scanner_test.cpp
+  file_writer_test.cpp
   lexer_test.cpp
   token_test.cpp
   token_type_test.cpp
