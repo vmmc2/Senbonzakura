@@ -233,9 +233,7 @@ s: int[] = "Hello" + {13, 10};
 * It would be cool to detect the use of uninitialized variables and, then, maybe throw a warning or an error during the compilation phase.
 * It seems that the specification document has left ambiguous whether or not a statement has a semicolon ```(;)``` at its end. Since most languages opt to use it, I'll also do so.
 * Honestly, I don't know how the following observation present in Eta specification can make the parsing easier: "To simplify parsing, any ```return``` statement can only occur as the last statement in its block."
-* Regarding the usage of the pseudo-variable, normally represented by ```_```, should we treat it as an identifier when performing the lexing stage? If not, how should we treat it?
 * Honestly, I got a little confused about the following statement declared within the Eta programming language specification: "All global variables in scope may have their value changed by assignments in functions". Does this mean that everytime that I want to change the value of a global variable I must call a specific function that does that for me?
 * What does it mean to say that every binary arithmetic operation operates modulo ```2^64```?
-* What is number crunching and why it may be useful in certain scenarios?
 * The Eta Specification document says that "Like character literals, each character of a string literal must be a legal Unicode character". But what exactly is a legal Unicode character? And how should I represent it inside within a token?
 * I don't think I fully understood this statement: "Arrays are implemented by placing the representations of the values of each of their cells contiguously in memory. They also record their lengths."
