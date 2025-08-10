@@ -4,6 +4,7 @@
 
 #include <filesystem>
 #include <fstream>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -69,4 +70,31 @@ TEST_F(FileWriterTest, WriteLexerOutputSuccessTest) {
                                 "=\n[001:009] Type: kInteger - Value: 9\n";
 
   EXPECT_EQ(produced_output, expected_output);
+}
+
+TEST_F(FileWriterTest, WriteLexerOutputFailureOutputDirPathDoesntExistTest) {
+  std::vector<std::string> programs_filepaths{"test_1.eta"};
+
+  FileWriter file_writer{programs_filepaths,
+                         "/output/dir/path/that/doesnt/exist"};
+
+  std::vector<Token> tokens;
+
+  EXPECT_THROW(file_writer.WriteLexerOutput(programs_filepaths[0], tokens),
+               std::runtime_error);
+}
+
+TEST_F(FileWriterTest, WriteLexerOutputFailureOutputDirPathIsNotDirectoryTest) {
+  std::string temp_file_path =
+      std::filesystem::temp_directory_path().string() + "/temp_file.txt";
+  std::ofstream(temp_file_path).close();
+
+  std::vector<std::string> programs_filepaths{"file.eta"};
+  FileWriter file_writer{programs_filepaths, temp_file_path};
+  std::vector<Token> tokens;
+
+  ASSERT_THROW(file_writer.WriteLexerOutput(programs_filepaths[0], tokens),
+               std::runtime_error);
+
+  std::filesystem::remove(temp_file_path);
 }
