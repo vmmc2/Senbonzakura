@@ -38,6 +38,9 @@ Compiler written in C++ for the Eta programming language, presented at "CS 4120 
 - [ ] Make a pretty printer for the generated AST.
 - [ ] Evaluate the possibility of generating the AST in a way that it can be given directly to LLVM so it can generate code for desired target architectures.
 
+## Things to reconsider/rethink
+- [ ] The API and functioning of the ```FileWriter``` class. It was kinda hard to write tests for this class when I was developing the lexing phase. It was kind of hard to develop the tests...
+
 ## Commands to Execute Tests
 ```sh
 cd build
