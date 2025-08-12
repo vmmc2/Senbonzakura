@@ -35,3 +35,20 @@ TEST(DiagnosticReporterTest, ReportCompilerErrorTest) {
   EXPECT_TRUE(diagnostic_reporter.HasNormalErrors());
   EXPECT_TRUE(diagnostic_reporter.HasFatalErrors());
 }
+
+class DiagnosticReporterOutputTest : public ::testing::Test {
+protected:
+  std::stringstream captured_cout;
+  std::streambuf *original_cout_buffer;
+
+  void SetUp() override {
+    original_cout_buffer = std::cout.rdbuf();
+    std::cout.rdbuf(captured_cout.rdbuf());
+  }
+
+  void TearDown() override { std::cout.rdbuf(original_cout_buffer); }
+};
+
+TEST_F(DiagnosticReporterOutputTest, OutputCompilerErrorsPrintsCorrectFormat) {}
+
+TEST_F(DiagnosticReporterOutputTest, OutputSystemErrorsPrintsCorrectFormat) {}
