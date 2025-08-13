@@ -81,4 +81,20 @@ TEST_F(DiagnosticReporterOutputTest, OutputCompilerErrorsPrintsCorrectFormat) {
   EXPECT_EQ(captured_cout_.str(), expected_output);
 }
 
-TEST_F(DiagnosticReporterOutputTest, OutputSystemErrorsPrintsCorrectFormat) {}
+TEST_F(DiagnosticReporterOutputTest, OutputSystemErrorsPrintsCorrectFormat) {
+  DiagnosticReporter diagnostic_reporter;
+
+  diagnostic_reporter.ReportSystemError(
+      Severity::kFatal,
+      "[E]: Could not read the provided file '{}' because it is not an "
+      "Eta file. Eta files must have the '.eta' extension.");
+
+  diagnostic_reporter.OutputSystemErrors();
+
+  std::string expected_output = "\033[31m[Fatal] - [Message]:[E]: Could not "
+                                "read the provided file '{}' because "
+                                "it is not an Eta file. Eta files must have "
+                                "the '.eta' extension.\033[0m\n";
+
+  EXPECT_EQ(captured_cout_.str(), expected_output);
+}
