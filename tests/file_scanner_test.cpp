@@ -23,3 +23,11 @@ protected:
     file << content;
   }
 };
+
+TEST_F(FileScannerTest, FileScannerConstructorTest) {
+  std::string file_path = "/some/path/to/a/file.eta";
+
+  FileScanner file_scanner{file_path, diagnostic_reporter_};
+
+  EXPECT_EQ(file_scanner.GetFilePath(), file_path);
+}
