@@ -13,6 +13,10 @@ FileScanner::FileScanner(std::string file_path,
     : file_path_(std::move(file_path)),
       diagnostic_reporter_(diagnostic_reporter) {}
 
+const DiagnosticReporter& FileScanner::GetDiagnosticReporter() const {
+  return diagnostic_reporter_;
+}
+
 const std::string &FileScanner::GetFileContentBytes() const {
   return file_content_bytes_;
 }

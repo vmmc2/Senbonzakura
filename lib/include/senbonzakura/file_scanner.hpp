@@ -14,6 +14,7 @@ private:
 public:
   FileScanner(std::string file_path, DiagnosticReporter &diagnostic_reporter);
 
+  const DiagnosticReporter &GetDiagnosticReporter() const;
   const std::string &GetFileContentBytes() const;
   const std::u32string &GetFileContentCodepoints() const;
   const std::string &GetFilePath() const;
