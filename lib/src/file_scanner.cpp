@@ -21,6 +21,10 @@ const std::u32string &FileScanner::GetFileContentCodepoints() const {
   return file_content_codepoints_;
 }
 
+const std::string& FileScanner::GetFilePath() const {
+  return file_path_;
+} 
+
 void FileScanner::ScanFile() {
   std::filesystem::path path{file_path_};
   if (path.extension() != ".eta") {
