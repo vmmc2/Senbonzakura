@@ -31,3 +31,64 @@ TEST_F(FileScannerTest, FileScannerConstructorTest) {
 
   EXPECT_EQ(file_scanner.GetFilePath(), file_path);
 }
+
+TEST_F(FileScannerTest, FileScannerScanFileSuccessTest) {
+  std::string filename = "test_1.eta";
+  std::string file_content = "x: int = 42;";
+
+  CreateTestFile(filename, file_content);
+
+  FileScanner file_scanner{temp_dir_path_ + "/" + filename,
+                           diagnostic_reporter_};
+
+  file_scanner.ScanFile();
+
+  auto diagnostic_reporter = file_scanner.GetDiagnosticReporter();
+
+  EXPECT_FALSE(diagnostic_reporter.HasWarnings());
+  EXPECT_FALSE(diagnostic_reporter.HasNormalErrors());
+  EXPECT_FALSE(diagnostic_reporter.HasFatalErrors());
+}
+
+TEST_F(FileScannerTest, FileScannerScanFileFailureFileExtensionTest) {
+  std::string invalid_filename = "test_1.txt";
+  std::string file_content = "foo bar";
+
+  CreateTestFile(invalid_filename, file_content);
+
+  FileScanner file_scanner{temp_dir_path_ + "/" + invalid_filename,
+                           diagnostic_reporter_};
+
+  file_scanner.ScanFile();
+
+  auto diagnostic_reporter = file_scanner.GetDiagnosticReporter();
+
+  EXPECT_TRUE(diagnostic_reporter.HasFatalErrors());
+}
+
+TEST_F(FileScannerTest, FileScannerScanFileFailureOpenFileFTest) {
+  std::string non_existent_file = "non_existent.eta";
+
+  FileScanner file_scanner{non_existent_file, diagnostic_reporter_};
+  file_scanner.ScanFile();
+
+  auto diagnostic_reporter = file_scanner.GetDiagnosticReporter();
+
+  EXPECT_TRUE(diagnostic_reporter.HasFatalErrors());
+}
+
+TEST_F(FileScannerTest, FileScannerScanFileFailureInvalidUtf8FileContentTest) {
+  std::string filename = "test_1.eta";
+  std::string invalid_utf8_content = "a\x{FFb}";
+
+  CreateTestFile(filename, invalid_utf8_content);
+
+  FileScanner file_scanner{temp_dir_path_ + "/" + filename,
+                           diagnostic_reporter_};
+
+  file_scanner.ScanFile();
+
+  auto diagnostic_reporter = file_scanner.GetDiagnosticReporter();
+
+  EXPECT_TRUE(diagnostic_reporter.HasFatalErrors());
+}
