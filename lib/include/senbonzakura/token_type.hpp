@@ -7,10 +7,10 @@ enum class TokenType {
   // Single-Character Tokens.
   kLeftParen,
   kRightParen,
-  kLeftBrace,
-  kRightBrace,
   kLeftBracket,
   kRightBracket,
+  kLeftSquareBracket,
+  kRightSquareBracket,
   kComma,
   kColon,
   kSemiColon,

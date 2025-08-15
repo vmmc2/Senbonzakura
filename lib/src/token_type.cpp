@@ -6,10 +6,10 @@ std::string TokenTypeToString(TokenType token_type) {
   static const std::unordered_map<TokenType, std::string>
       token_type_to_str_map = {{TokenType::kLeftParen, "kLeftParen"},
                                {TokenType::kRightParen, "kRightParen"},
-                               {TokenType::kLeftBrace, "kLeftBrace"},
-                               {TokenType::kRightBrace, "kRightBrace"},
                                {TokenType::kLeftBracket, "kLeftBracket"},
                                {TokenType::kRightBracket, "kRightBracket"},
+                               {TokenType::kLeftSquareBracket, "kLeftSquareBracket"},
+                               {TokenType::kRightSquareBracket, "kRightSquareBracket"},
                                {TokenType::kComma, "kComma"},
                                {TokenType::kColon, "kColon"},
                                {TokenType::kSemiColon, "kSemiColon"},
