@@ -10,6 +10,11 @@ Token::Token(int line, int column, TokenType token_type, std::any value,
     : line_(line), column_(column), token_type_(token_type),
       value_(std::move(value)), lexeme_(std::move(lexeme)) {}
 
+bool Token::operator==(const Token &other) const {
+  return line_ == other.line_ && column_ == other.column_ &&
+         token_type_ == other.token_type_ && lexeme_ == other.lexeme_;
+}
+
 std::string U32StringToUtf8(const std::u32string &u32str) {
   std::string s;
   s.reserve(u32str.length() * 4); // Optimization: Max of 4 bytes per char32_t.
@@ -32,10 +37,10 @@ std::u32string EscapeU32StringForDisplay(const std::u32string &u32str) {
       break; // Retorno de carro -> \r
     case U'\\':
       escaped_str += U"\\\\";
-      break; // Barra invertida -> 
-    case U'"': 
+      break; // Barra invertida ->
+    case U'"':
       escaped_str += U"\\\"";
-      break;  // Aspa dupla -> \"
+      break; // Aspa dupla -> \"
       // Adicione outros escapes comuns se necessário (ex: \0, \a, \b, \f, \v)
     default:
       // Caracteres ASCII imprimíveis (sem escapamento especial acima)

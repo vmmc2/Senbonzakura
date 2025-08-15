@@ -13,6 +13,7 @@ class Token {
 public:
   Token(int line, int column, TokenType token_type, std::any value,
         std::string lexeme);
+  bool operator==(const Token &other) const;
 
   friend std::ostream &operator<<(std::ostream &os, const Token &token);
 
