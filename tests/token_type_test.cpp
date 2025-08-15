@@ -6,10 +6,12 @@ TEST(TokenTypeTest, AllTokenTypesReturnCorrectString) {
   // Single-Character Tokens
   EXPECT_EQ(TokenTypeToString(TokenType::kLeftParen), "kLeftParen");
   EXPECT_EQ(TokenTypeToString(TokenType::kRightParen), "kRightParen");
-  EXPECT_EQ(TokenTypeToString(TokenType::kLeftBrace), "kLeftBrace");
-  EXPECT_EQ(TokenTypeToString(TokenType::kRightBrace), "kRightBrace");
   EXPECT_EQ(TokenTypeToString(TokenType::kLeftBracket), "kLeftBracket");
   EXPECT_EQ(TokenTypeToString(TokenType::kRightBracket), "kRightBracket");
+  EXPECT_EQ(TokenTypeToString(TokenType::kLeftSquareBracket),
+            "kLeftSquareBracket");
+  EXPECT_EQ(TokenTypeToString(TokenType::kRightSquareBracket),
+            "kRightSquareBracket");
   EXPECT_EQ(TokenTypeToString(TokenType::kComma), "kComma");
   EXPECT_EQ(TokenTypeToString(TokenType::kColon), "kColon");
   EXPECT_EQ(TokenTypeToString(TokenType::kSemiColon), "kSemiColon");
