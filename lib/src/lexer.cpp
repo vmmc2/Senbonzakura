@@ -121,6 +121,7 @@ void Lexer::Character() {
 // start_; at the end of this method.
 void Lexer::Comment() {
   while (!IsAtEnd() && Peek(0) != '\n') {
+    column_delta_++;
     Advance();
   }
 
@@ -236,6 +237,7 @@ void Lexer::LexToken() {
     break;
   case (U'/'):
     if (Match(U'/')) {
+      column_delta_ = 2;
       Comment();
     } else {
       AddToken(TokenType::kSlash);
