@@ -119,12 +119,20 @@ TEST_F(LexerTest, LexesWithOnlyWhitespaceCharactersInSourceCode) {
   std::vector<Token> output_tokens =
       LexSourceCode("test_whitespace_characters.eta", file_content_bytes);
 
-  std::vector<Token> expected_tokens{
-    Token{1, 9, TokenType::kFileEnd, {}, ""}
-  };
+  std::vector<Token> expected_tokens{Token{1, 9, TokenType::kFileEnd, {}, ""}};
 
   EXPECT_EQ(output_tokens.size(), expected_tokens.size());
   EXPECT_EQ(output_tokens, expected_tokens);
 }
 
-TEST_F(LexerTest, LexesWithOnlyCommentsInSourceCode) {}
+TEST_F(LexerTest, LexesWithOnlyCommentsInSourceCode) {
+  std::string file_content_bytes = "// Just a comment here. There are no other "
+                                   "tokens beside the 'kFileEnd' one.";
+  std::vector<Token> output_tokens =
+      LexSourceCode("test_comment.eta", file_content_bytes);
+
+  std::vector<Token> expected_tokens{Token{1, 77, TokenType::kFileEnd, {}, ""}};
+
+  EXPECT_EQ(output_tokens.size(), expected_tokens.size());
+  EXPECT_EQ(output_tokens, expected_tokens);
+}
