@@ -195,16 +195,16 @@ void Lexer::LexToken() {
     AddToken(TokenType::kRightParen);
     break;
   case (U'{'):
-    AddToken(TokenType::kLeftBrace);
-    break;
-  case (U'}'):
-    AddToken(TokenType::kRightBrace);
-    break;
-  case (U'['):
     AddToken(TokenType::kLeftBracket);
     break;
-  case (U']'):
+  case (U'}'):
     AddToken(TokenType::kRightBracket);
+    break;
+  case (U'['):
+    AddToken(TokenType::kLeftSquareBracket);
+    break;
+  case (U']'):
+    AddToken(TokenType::kRightSquareBracket);
     break;
   case (U','):
     AddToken(TokenType::kComma);
