@@ -136,3 +136,11 @@ TEST_F(LexerTest, LexesWithOnlyCommentsInSourceCode) {
   EXPECT_EQ(output_tokens.size(), expected_tokens.size());
   EXPECT_EQ(output_tokens, expected_tokens);
 }
+
+TEST_F(LexerTest, LexesWithOnlyIdentifiersInSourceCode) {}
+
+TEST_F(LexerTest, LexesWithOnlyKeywordsInSourceCode) {}
+
+TEST_F(LexerTest, LexesWithOnlyPrimitiveTypesInSourceCode) {}
+
+TEST_F(LexerTest, LexesWithOnlyLiteralsInSourceCode) {}
