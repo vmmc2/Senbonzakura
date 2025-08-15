@@ -78,3 +78,42 @@ TEST_F(LexerTest, LexesWithOnlySingleCharacterTokensInSourceCode) {
   EXPECT_EQ(output_tokens.size(), expected_tokens.size());
   EXPECT_EQ(output_tokens, expected_tokens);
 }
+
+TEST_F(LexerTest, LexesWithOnlyDoubleCharacterTokensInSourceCode) {
+  std::string file_content_bytes = "!===>=<=&|";
+  std::vector<Token> output_tokens =
+      LexSourceCode("test_double_character_tokens.eta", file_content_bytes);
+
+  std::vector<Token> expected_tokens{
+      Token{1, 1, TokenType::kBangEqual, {}, "!="},
+      Token{1, 3, TokenType::kEqualEqual, {}, "=="},
+      Token{1, 5, TokenType::kGreaterEqual, {}, ">="},
+      Token{1, 7, TokenType::kLessEqual, {}, "<="},
+      Token{1, 9, TokenType::kLogicalAnd, {}, "&"},
+      Token{1, 10, TokenType::kLogicalOr, {}, "|"},
+      Token{1, 11, TokenType::kFileEnd, {}, ""},
+  };
+
+  EXPECT_EQ(output_tokens.size(), expected_tokens.size());
+  EXPECT_EQ(output_tokens, expected_tokens);
+}
+
+TEST_F(LexerTest, LexesWithOnlyTripleCharacterTokensInSourceCode) {
+  std::string file_content_bytes = "*>>*>";
+  std::vector<Token> output_tokens =
+      LexSourceCode("test_triple_character_tokens.eta", file_content_bytes);
+
+  std::vector<Token> expected_tokens{
+      Token{1, 1, TokenType::kHighMul, {}, "*>>"},
+      Token{1, 4, TokenType::kStar, {}, "*"},
+      Token{1, 5, TokenType::kGreater, {}, ">"},
+      Token{1, 6, TokenType::kFileEnd, {}, ""},
+  };
+
+  EXPECT_EQ(output_tokens.size(), expected_tokens.size());
+  EXPECT_EQ(output_tokens, expected_tokens);
+}
+
+TEST_F(LexerTest, LexesWithOnlyWhitespaceCharactersInSourceCode) {}
+
+TEST_F(LexerTest, LexesWithOnlyCommentsInSourceCode) {}
