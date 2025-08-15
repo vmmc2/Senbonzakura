@@ -49,9 +49,32 @@ TEST_F(LexerTest, LexesWithEmptySourceCode) {
 
 TEST_F(LexerTest, LexesWithOnlySingleCharacterTokensInSourceCode) {
   std::string file_content_bytes = "(){}[],:;+-%*/_=!><";
-  std::vector<Token> tokens =
+  std::vector<Token> output_tokens =
       LexSourceCode("test_single_character_tokens.eta", file_content_bytes);
 
-  EXPECT_EQ(tokens.size(), 20);
-  EXPECT_EQ(tokens.back().token_type_, TokenType::kFileEnd);
+  std::vector<Token> expected_tokens{
+      Token{1, 1, TokenType::kLeftParen, {}, "("},
+      Token{1, 2, TokenType::kRightParen, {}, ")"},
+      Token{1, 3, TokenType::kLeftBracket, {}, "{"},
+      Token{1, 4, TokenType::kRightBracket, {}, "}"},
+      Token{1, 5, TokenType::kLeftSquareBracket, {}, "["},
+      Token{1, 6, TokenType::kRightSquareBracket, {}, "]"},
+      Token{1, 7, TokenType::kComma, {}, ","},
+      Token{1, 8, TokenType::kColon, {}, ":"},
+      Token{1, 9, TokenType::kSemiColon, {}, ";"},
+      Token{1, 10, TokenType::kPlus, {}, "+"},
+      Token{1, 11, TokenType::kMinus, {}, "-"},
+      Token{1, 12, TokenType::kRemainder, {}, "%"},
+      Token{1, 13, TokenType::kStar, {}, "*"},
+      Token{1, 14, TokenType::kSlash, {}, "/"},
+      Token{1, 15, TokenType::kUnderscore, {}, "_"},
+      Token{1, 16, TokenType::kEqual, {}, "="},
+      Token{1, 17, TokenType::kBang, {}, "!"},
+      Token{1, 18, TokenType::kGreater, {}, ">"},
+      Token{1, 19, TokenType::kLess, {}, "<"},
+      Token{1, 20, TokenType::kFileEnd, {}, ""},
+  };
+
+  EXPECT_EQ(output_tokens.size(), expected_tokens.size());
+  EXPECT_EQ(output_tokens, expected_tokens);
 }
