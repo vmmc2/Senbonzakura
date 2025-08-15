@@ -117,8 +117,6 @@ void Lexer::Character() {
   return;
 }
 
-// TODO: Verify if it makes sense to add the line: column_delta_ = current_ -
-// start_; at the end of this method.
 void Lexer::Comment() {
   while (!IsAtEnd() && Peek(0) != '\n') {
     column_delta_++;
