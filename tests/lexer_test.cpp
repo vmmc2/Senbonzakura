@@ -114,6 +114,17 @@ TEST_F(LexerTest, LexesWithOnlyTripleCharacterTokensInSourceCode) {
   EXPECT_EQ(output_tokens, expected_tokens);
 }
 
-TEST_F(LexerTest, LexesWithOnlyWhitespaceCharactersInSourceCode) {}
+TEST_F(LexerTest, LexesWithOnlyWhitespaceCharactersInSourceCode) {
+  std::string file_content_bytes = "  \r \t\r \t";
+  std::vector<Token> output_tokens =
+      LexSourceCode("test_whitespace_characters.eta", file_content_bytes);
+
+  std::vector<Token> expected_tokens{
+    Token{1, 9, TokenType::kFileEnd, {}, ""}
+  };
+
+  EXPECT_EQ(output_tokens.size(), expected_tokens.size());
+  EXPECT_EQ(output_tokens, expected_tokens);
+}
 
 TEST_F(LexerTest, LexesWithOnlyCommentsInSourceCode) {}
