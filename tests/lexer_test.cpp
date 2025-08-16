@@ -1,5 +1,6 @@
 #include "senbonzakura/file_scanner.hpp"
 #include "senbonzakura/lexer.hpp"
+#include "senbonzakura/token.hpp"
 #include "senbonzakura/token_type.hpp"
 
 #include <filesystem>
@@ -137,10 +138,50 @@ TEST_F(LexerTest, LexesWithOnlyCommentsInSourceCode) {
   EXPECT_EQ(output_tokens, expected_tokens);
 }
 
-TEST_F(LexerTest, LexesWithOnlyIdentifiersInSourceCode) {}
+TEST_F(LexerTest, LexesWithOnlyIdentifiersInSourceCode) {
+  std::string file_content_bytes = "foo bar A a_Ab23\na1'c2r2d2";
 
-TEST_F(LexerTest, LexesWithOnlyKeywordsInSourceCode) {}
+  std::vector<Token> output_tokens =
+      LexSourceCode("test_identifiers.eta", file_content_bytes);
 
-TEST_F(LexerTest, LexesWithOnlyPrimitiveTypesInSourceCode) {}
+  std::vector<Token> expected_tokens{
+      Token{1, 1, TokenType::kIdentifier, {}, "foo"},
+      Token{1, 5, TokenType::kIdentifier, {}, "bar"},
+      Token{1, 9, TokenType::kIdentifier, {}, "A"},
+      Token{1, 11, TokenType::kIdentifier, {}, "a_Ab23"},
+      Token{2, 1, TokenType::kIdentifier, {}, "a1'c2r2d2"},
+      Token{2, 10, TokenType::kFileEnd, {}, ""},
+  };
+
+  EXPECT_EQ(output_tokens.size(), expected_tokens.size());
+  EXPECT_EQ(output_tokens, expected_tokens);
+}
+
+TEST_F(LexerTest, LexesWithOnlyKeywordsInSourceCode) {
+  std::string file_content_bytes =
+      "else if while return\ntrue false use   length";
+
+  std::vector<Token> output_tokens =
+      LexSourceCode("test_keywords.eta", file_content_bytes);
+
+  std::vector<Token> expected_tokens{
+      Token{1, 1, TokenType::kElse, {}, "else"},
+      Token{1, 6, TokenType::kIf, {}, "if"},
+      Token{1, 9, TokenType::kWhile, {}, "while"},
+      Token{1, 15, TokenType::kReturn, {}, "return"},
+      Token{2, 1, TokenType::kTrue, true, "true"},
+      Token{2, 6, TokenType::kFalse, false, "false"},
+      Token{2, 12, TokenType::kUse, {}, "use"},
+      Token{2, 18, TokenType::kLength, {}, "length"},
+      Token{2, 24, TokenType::kFileEnd, {}, ""},
+  };
+
+  EXPECT_EQ(output_tokens.size(), expected_tokens.size());
+  EXPECT_EQ(output_tokens, expected_tokens);
+}
+
+TEST_F(LexerTest, LexesWithOnlyPrimitiveTypesInSourceCode) {
+  
+}
 
 TEST_F(LexerTest, LexesWithOnlyLiteralsInSourceCode) {}
