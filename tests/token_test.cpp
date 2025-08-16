@@ -7,36 +7,6 @@
 
 #include <gtest/gtest.h>
 
-TEST(TokenHelpersTest, U32StringToUtf8CorversionTest) {
-  // Test with a 'Smiley Face' emoji.
-  std::u32string u32_str = U"Hello, World! \U0001F60A";
-  std::string expected_utf8_str = "Hello, World! 😊";
-  EXPECT_EQ(U32StringToUtf8(u32_str), expected_utf8_str);
-}
-
-TEST(TokenHelpersTest,
-     EscapeU32StringForDisplayCorrectlyEscapeSpecialCharsTest) {
-  std::u32string u32str = U"A string with \"\n\t\r quotes and line breaks.";
-  std::u32string expected_escaped =
-      U"A string with \\\"\\n\\t\\r quotes and line breaks.";
-
-  EXPECT_EQ(EscapeU32StringForDisplay(u32str), expected_escaped);
-}
-
-TEST(TokenHelpersTest, EscapeU32StringForDisplayCorrectlyFormatUnicodeTest) {
-  // Unicode character outside of the ASCII range (Example: Copyright symbol).
-  std::u32string u32str = U"Hello, \u00A9!";
-  // Expected result is the string: 'Hello, ' + escape for the copyright symbol
-  // + '!'
-  std::u32string expected_escaped = U"Hello, \\x{a9}!";
-  EXPECT_EQ(EscapeU32StringForDisplay(u32str), expected_escaped);
-
-  // Emoji (A UTF-32 character of 4 bytes).
-  std::u32string emoji_str = U"\U0001F60A";
-  std::u32string expected_emoji_escaped = U"\\x{1f60a}";
-  EXPECT_EQ(EscapeU32StringForDisplay(emoji_str), expected_emoji_escaped);
-}
-
 TEST(TokenTest, TokenConstructorTest) {
   Token identifier_token{1, 5, TokenType::kIdentifier, {}, "x"};
   EXPECT_EQ(identifier_token.line_, 1);
@@ -61,12 +31,12 @@ TEST(TokenTest, TokenConstructorTest) {
   EXPECT_EQ(file_end_token.lexeme_, "");
 
   Token string_literal_token{1, 5, TokenType::kString, "Hello World!",
-                             "Hello, Worl\\x{64}!"};
+                             "\"Hello, World!\""};
   EXPECT_EQ(string_literal_token.line_, 1);
   EXPECT_EQ(string_literal_token.column_, 5);
   EXPECT_EQ(string_literal_token.token_type_, TokenType::kString);
   EXPECT_EQ(string_literal_token.value_.has_value(), true);
-  EXPECT_EQ(string_literal_token.lexeme_, "Hello, Worl\\x{64}!");
+  EXPECT_EQ(string_literal_token.lexeme_, "\"Hello, World!\"");
 }
 
 TEST(TokenTest, OperatorPrintsIntegerCorrectlyTest) {
@@ -100,27 +70,27 @@ TEST(TokenTest, OperatorPrintsBooleanCorrectlyTest) {
 }
 
 TEST(TokenTest, OperatorPrintsStringLiteralCorrectlyTest) {
-  std::u32string u32_str = U"Hello, World!\n";
-  Token string_literal_token{23, 2, TokenType::kString, u32_str,
-                             "Hello, Worl\x{64}!\n"};
+  std::string str = "Hello, World!\n";
+  Token string_literal_token{23, 2, TokenType::kString, str,
+                             "\"Hello, World!\n\""};
 
   std::stringstream ss;
   ss << string_literal_token;
 
   std::string expected_output =
-      "[023:002] Type: kString - Value: Hello, World!\\n";
+      "[023:002] Type: kString - Value: Hello, World!\n - Lexeme: \"Hello, World!\n\"";
 
   EXPECT_EQ(ss.str(), expected_output);
 }
 
 TEST(TokenTest, OperatorPrintsCharLiteralCorrectlyTest) {
-  std::u32string u32_ch = U"d";
-  Token character_literal_token{1, 1, TokenType::kCharacter, u32_ch, "\x{64}"};
+  char ch = 'd';
+  Token character_literal_token{1, 1, TokenType::kCharacter, ch, "'d'"};
 
   std::stringstream ss;
   ss << character_literal_token;
 
-  std::string expected_output = "[001:001] Type: kCharacter - Value: d";
+  std::string expected_output = "[001:001] Type: kCharacter - Value: d - Lexeme: 'd'";
 
   EXPECT_EQ(ss.str(), expected_output);
 }

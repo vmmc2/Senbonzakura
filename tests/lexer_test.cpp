@@ -32,7 +32,7 @@ protected:
 
     file_scanner.ScanFile();
 
-    Lexer lexer{temp_lexer_filepath_, file_scanner.GetFileContentCodepoints(),
+    Lexer lexer{temp_lexer_filepath_, file_scanner.GetFileContentBytes(),
                 diagnostic_reporter_};
 
     return lexer.LexTokens();
@@ -181,7 +181,37 @@ TEST_F(LexerTest, LexesWithOnlyKeywordsInSourceCode) {
 }
 
 TEST_F(LexerTest, LexesWithOnlyPrimitiveTypesInSourceCode) {
-  
+  std::string file_content_bytes = "int bool\n bool bool\nint";
+
+  std::vector<Token> output_tokens =
+      LexSourceCode("test_primitive_types.eta", file_content_bytes);
+
+  std::vector<Token> expected_tokens{
+      Token{1, 1, TokenType::kInt, {}, "int"},
+      Token{1, 5, TokenType::kBool, {}, "bool"},
+      Token{2, 2, TokenType::kBool, {}, "bool"},
+      Token{2, 7, TokenType::kBool, {}, "bool"},
+      Token{3, 1, TokenType::kInt, {}, "int"},
+      Token{3, 4, TokenType::kFileEnd, {}, ""},
+  };
+
+  EXPECT_EQ(output_tokens.size(), expected_tokens.size());
+  EXPECT_EQ(output_tokens, expected_tokens);
 }
 
-TEST_F(LexerTest, LexesWithOnlyLiteralsInSourceCode) {}
+TEST_F(LexerTest, LexesWithOnlyLiteralsInSourceCode) {
+  std::string file_content_bytes = " 2 23 \"Hello, World!\"";
+
+  std::vector<Token> output_tokens =
+      LexSourceCode("test_literal_values.eta", file_content_bytes);
+
+  std::vector<Token> expected_tokens{Token{1, 2, TokenType::kInteger, 2, "2"},
+                                     Token{1, 4, TokenType::kInteger, 23, "23"},
+                                     Token{1, 7, TokenType::kString,
+                                           std::string{"Hello, World!"},
+                                           "\"Hello, World!\""},
+                                     Token{1, 22, TokenType::kFileEnd, {}, ""}};
+
+  EXPECT_EQ(output_tokens.size(), expected_tokens.size());
+  EXPECT_EQ(output_tokens, expected_tokens);
+}

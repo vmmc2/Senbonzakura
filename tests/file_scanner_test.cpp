@@ -76,19 +76,3 @@ TEST_F(FileScannerTest, FileScannerScanFileFailureOpenFileFTest) {
 
   EXPECT_TRUE(diagnostic_reporter.HasFatalErrors());
 }
-
-TEST_F(FileScannerTest, FileScannerScanFileFailureInvalidUtf8FileContentTest) {
-  std::string filename = "test_1.eta";
-  std::string invalid_utf8_content = "a\x{FFb}";
-
-  CreateTestFile(filename, invalid_utf8_content);
-
-  FileScanner file_scanner{temp_dir_path_ + "/" + filename,
-                           diagnostic_reporter_};
-
-  file_scanner.ScanFile();
-
-  auto diagnostic_reporter = file_scanner.GetDiagnosticReporter();
-
-  EXPECT_TRUE(diagnostic_reporter.HasFatalErrors());
-}

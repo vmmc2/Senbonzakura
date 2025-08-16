@@ -57,8 +57,8 @@ int main(int argc, const char **argv) {
     FileScanner file_scanner{current_eta_filepath, diagnostic_reporter};
 
     file_scanner.ScanFile();
-    const std::u32string &file_content =
-        file_scanner.GetFileContentCodepoints();
+    const std::string &file_content =
+        file_scanner.GetFileContentBytes();
 
     Lexer lexer{current_eta_filepath, file_content, diagnostic_reporter};
     const std::vector<Token> tokens = lexer.LexTokens();

@@ -8,7 +8,6 @@ class FileScanner {
 private:
   std::string file_path_;
   std::string file_content_bytes_;
-  std::u32string file_content_codepoints_;
   DiagnosticReporter &diagnostic_reporter_;
 
 public:
@@ -16,7 +15,6 @@ public:
 
   const DiagnosticReporter &GetDiagnosticReporter() const;
   const std::string &GetFileContentBytes() const;
-  const std::u32string &GetFileContentCodepoints() const;
   const std::string &GetFilePath() const;
   void ScanFile();
 };
