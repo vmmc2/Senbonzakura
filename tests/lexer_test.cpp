@@ -215,3 +215,76 @@ TEST_F(LexerTest, LexesWithOnlyLiteralsInSourceCode) {
   EXPECT_EQ(output_tokens.size(), expected_tokens.size());
   EXPECT_EQ(output_tokens, expected_tokens);
 }
+
+TEST_F(LexerTest, LexesWithUnterminatedStringLiteralOnSourceCode) {
+  std::string file_content_bytes = "s: int[] = \"Hello,";
+
+  std::vector<Token> output_tokens =
+      LexSourceCode("test_unterminated_string_literal.eta", file_content_bytes);
+
+  std::vector<Token> expected_tokens{
+      Token{1, 1, TokenType::kIdentifier, {}, "s"},
+      Token{1, 2, TokenType::kColon, {}, ":"},
+      Token{1, 4, TokenType::kInt, {}, "int"},
+      Token{1, 7, TokenType::kLeftSquareBracket, {}, "["},
+      Token{1, 8, TokenType::kRightSquareBracket, {}, "]"},
+      Token{1, 10, TokenType::kEqual, {}, "="},
+      Token{1, 20, TokenType::kFileEnd, {}, ""},
+  };
+
+  EXPECT_EQ(output_tokens.size(), expected_tokens.size());
+  EXPECT_EQ(output_tokens, expected_tokens);
+
+  EXPECT_FALSE(diagnostic_reporter_.HasWarnings());
+  EXPECT_TRUE(diagnostic_reporter_.HasNormalErrors());
+  EXPECT_FALSE(diagnostic_reporter_.HasFatalErrors());
+}
+
+TEST_F(LexerTest, LexesWithStringLiteralSpanningMultipleLinesOnSourceCode) {}
+
+TEST_F(LexerTest, LexesWithUnterminatedCharLiteralOnSourceCode) {
+  std::string file_content_bytes = "s: int = 'a";
+
+  std::vector<Token> output_tokens =
+      LexSourceCode("test_unterminated_char_literal.eta", file_content_bytes);
+
+  std::vector<Token> expected_tokens{
+      Token{1, 1, TokenType::kIdentifier, {}, "s"},
+      Token{1, 2, TokenType::kColon, {}, ":"},
+      Token{1, 4, TokenType::kInt, {}, "int"},
+      Token{1, 8, TokenType::kEqual, {}, "="},
+      Token{1, 12, TokenType::kFileEnd, {}, ""},
+  };
+
+  EXPECT_EQ(output_tokens.size(), expected_tokens.size());
+  EXPECT_EQ(output_tokens, expected_tokens);
+
+  EXPECT_FALSE(diagnostic_reporter_.HasWarnings());
+  EXPECT_TRUE(diagnostic_reporter_.HasNormalErrors());
+  EXPECT_FALSE(diagnostic_reporter_.HasFatalErrors());
+}
+
+TEST_F(LexerTest, LexesWithEmptyCharLiteralOnSourceCode) {
+  std::string file_content_bytes = "s: int = '';";
+
+  std::vector<Token> output_tokens =
+      LexSourceCode("test_empty_char_literal.eta", file_content_bytes);
+
+  std::vector<Token> expected_tokens{
+      Token{1, 1, TokenType::kIdentifier, {}, "s"},
+      Token{1, 2, TokenType::kColon, {}, ":"},
+      Token{1, 4, TokenType::kInt, {}, "int"},
+      Token{1, 8, TokenType::kEqual, {}, "="},
+      Token{1, 12, TokenType::kSemiColon, {}, ";"},
+      Token{1, 13, TokenType::kFileEnd, {}, ""},
+  };
+
+  EXPECT_EQ(output_tokens.size(), expected_tokens.size());
+  EXPECT_EQ(output_tokens, expected_tokens);
+
+  EXPECT_FALSE(diagnostic_reporter_.HasWarnings());
+  EXPECT_TRUE(diagnostic_reporter_.HasNormalErrors());
+  EXPECT_FALSE(diagnostic_reporter_.HasFatalErrors());
+}
+
+TEST_F(LexerTest, LexesWithMultiCharLiteralOnSourceCode) {}
