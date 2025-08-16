@@ -40,7 +40,7 @@ void Lexer::Character() {
             .line = line_,
             .column = column_,
         },
-        Severity::kFatal,
+        Severity::kError,
         std::format(
             "[E]: An unterminated character literal was found within the "
             "source file."));
@@ -54,7 +54,7 @@ void Lexer::Character() {
             .line = line_,
             .column = column_,
         },
-        Severity::kFatal,
+        Severity::kError,
         std::format("[E]: An empty character literal ('') was found within the "
                     "source file. This is not a valid ASCII character."));
     return;
@@ -67,7 +67,7 @@ void Lexer::Character() {
     diagnostic_reporter_.ReportCompilerError(
         std::move(SourceCodeLocation{
             .source_name = file_path_, .line = line_, .column = column_}),
-        Severity::kFatal,
+        Severity::kError,
         std::format("[E]: A character literal that does not follow the Eta "
                     "Specification Document was found within the "
                     "source file."));
@@ -276,7 +276,7 @@ void Lexer::LexToken() {
       diagnostic_reporter_.ReportCompilerError(
           std::move(SourceCodeLocation{
               .source_name = file_path_, .line = line_, .column = column_}),
-          Severity::kFatal,
+          Severity::kError,
           std::format(
               "[E]: Unrecgonized character present inside the source file: {}.",
               std::string(1, current_char)));
@@ -316,7 +316,7 @@ void Lexer::String() {
       diagnostic_reporter_.ReportCompilerError(
           std::move(SourceCodeLocation{
               .source_name = file_path_, .line = line_, .column = column_}),
-          Severity::kFatal,
+          Severity::kError,
           std::format("[E]: A string literal cannot span multiple lines in a "
                       "source file."));
       return;
@@ -330,7 +330,7 @@ void Lexer::String() {
     diagnostic_reporter_.ReportCompilerError(
         std::move(SourceCodeLocation{
             .source_name = file_path_, .line = line_, .column = column_}),
-        Severity::kFatal,
+        Severity::kError,
         std::format("[E]: An unterminated string literal was found within the "
                     "source file."));
     return;
