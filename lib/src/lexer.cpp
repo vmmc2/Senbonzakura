@@ -9,6 +9,7 @@
 
 #include "senbonzakura/diagnostic_reporter.hpp"
 #include "senbonzakura/token.hpp"
+#include "senbonzakura/token_type.hpp"
 
 Lexer::Lexer(const std::string &file_path,
              const std::u32string &source_code_codepoints,
@@ -140,7 +141,13 @@ void Lexer::Identifier() {
     token_type = keywords_to_tokentypes_[lexeme];
   }
 
-  AddToken(token_type);
+  if(token_type == TokenType::kFalse){
+    AddToken(token_type, false);
+  }else if(token_type == TokenType::kTrue){
+    AddToken(token_type, true);
+  }else{
+    AddToken(token_type);
+  }
 
   column_delta_ = current_ - start_;
 
@@ -503,7 +510,6 @@ void Lexer::String() {
   return;
 }
 
-// TODO: Check if this is OK.
 void Lexer::UpdateColumnNumber() {
   column_ += column_delta_;
 
