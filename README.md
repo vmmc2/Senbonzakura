@@ -39,7 +39,11 @@ Compiler written in C++ for the Eta programming language, presented at "CS 4120 
 - [ ] Evaluate the possibility of generating the AST in a way that it can be given directly to LLVM so it can generate code for desired target architectures.
 
 ## Things to reconsider/rethink
-- [ ] The API and functioning of the ```FileWriter``` class. It was kinda hard to write tests for this class when I was developing the lexing phase. It was kind of hard to develop the tests.
+- [ ] The API and functioning of the ```FileWriter``` class. It was kinda hard to write tests for this class when I was developing the lexing phase.
+- [ ] Reflect about how we handle errors. Currently we are using a ```DiagnosticReporter``` class. However, maybe there are better ways to deal with this.
+- [ ] Make the error messages have a uniform structure, whether they are related to the compiler itself or to the system that is running the compiler.
+- [ ] Reflect about how the ```FileScanner``` is structured. Also, if something about if could be improved.
+- [ ] Reflect about how some tests are being implemented. Sometimes, when I am writing a test of a certain component, I get the impression that there are many more components being involved. Which gives me the impression that the components of the Senbonzakura compiler are currently highly coupled.
 
 ## Commands to Execute Tests
 ```sh
