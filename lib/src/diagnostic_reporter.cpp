@@ -4,9 +4,6 @@
 #include <iostream>
 #include <string>
 
-const std::string kAnsiRed = "\033[31m";
-const std::string kAnsiReset = "\033[0m";
-
 std::string SeverityToString(Severity severity) {
   static const std::string severity_strings[] = {"Warning", "Error", "Fatal"};
 

@@ -5,6 +5,10 @@
 #include <string>
 #include <vector>
 
+const std::string kAnsiRed = "\033[31m";
+const std::string kAnsiGreen = "\033[32m";
+const std::string kAnsiReset = "\033[0m";
+
 enum class Severity {
   // Scenarios: unused variable, unreachable code, always true/false condition.
   kWarning,
@@ -74,7 +78,8 @@ private:
   int fatal_error_count_ = 0;
 
 public:
-  void ReportCompilerError(SourceCodeLocation loc, Severity sev, std::string msg);
+  void ReportCompilerError(SourceCodeLocation loc, Severity sev,
+                           std::string msg);
   void ReportSystemError(Severity sev, std::string msg);
   bool HasWarnings() const;
   bool HasNormalErrors() const;

@@ -15,10 +15,22 @@ protected:
   std::string temp_lexer_filepath_;
   DiagnosticReporter diagnostic_reporter_;
 
+  std::stringstream captured_cout_;
+  std::streambuf *original_cout_buffer_;
+
   void SetUp() override {
     temp_dir_path_ =
         std::filesystem::temp_directory_path().string() + "/test_lexer_dir";
     std::filesystem::create_directory(temp_dir_path_);
+
+    original_cout_buffer_ = std::cout.rdbuf();
+    std::cout.rdbuf(captured_cout_.rdbuf());
+  }
+
+  void TearDown() override {
+    std::filesystem::remove_all(temp_dir_path_);
+
+    std::cout.rdbuf(original_cout_buffer_);
   }
 
   std::vector<Token> LexSourceCode(const std::string &filename,
@@ -251,8 +263,7 @@ TEST_F(LexerTest, LexesWithUnterminatedCharLiteralOnSourceCode) {
       Token{1, 1, TokenType::kIdentifier, {}, "s"},
       Token{1, 2, TokenType::kColon, {}, ":"},
       Token{1, 4, TokenType::kInt, {}, "int"},
-      Token{1, 8, TokenType::kEqual, {}, "="}
-  };
+      Token{1, 8, TokenType::kEqual, {}, "="}};
 
   EXPECT_EQ(output_tokens.size(), expected_tokens.size());
   EXPECT_EQ(output_tokens, expected_tokens);

@@ -71,13 +71,13 @@ int main(int argc, const char **argv) {
       diagnostic_reporter.OutputCompilerErrors();
       return 0;
     } else {
-      std::cout
-          << std::format(
-                 "[SUCCESS]: Lexing step regarding the file '{}' has been "
-                 "successfully performed. The corresponding "
-                 "'.lexed' file has been stored at '{}'.",
-                 current_eta_filepath, output_directory_path)
-          << std::endl;
+      std::cout << kAnsiGreen
+                << std::format(
+                       "[SUCCESS]: Lexing phase of the file: '{}' has been "
+                       "successfully performed. The corresponding "
+                       "'.lexed' file has been stored at '{}'.",
+                       current_eta_filepath, output_directory_path)
+                << kAnsiReset << std::endl;
     }
   }
 
