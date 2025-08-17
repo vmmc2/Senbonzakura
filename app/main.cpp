@@ -57,24 +57,27 @@ int main(int argc, const char **argv) {
     FileScanner file_scanner{current_eta_filepath, diagnostic_reporter};
 
     file_scanner.ScanFile();
-    const std::string &file_content =
-        file_scanner.GetFileContentBytes();
+    const std::string &file_content = file_scanner.GetFileContentBytes();
 
     Lexer lexer{current_eta_filepath, file_content, diagnostic_reporter};
     const std::vector<Token> tokens = lexer.LexTokens();
 
     file_writer.WriteLexerOutput(current_eta_filepath, tokens);
 
-    if (diagnostic_reporter.HasFatalErrors()) {
+    if (diagnostic_reporter.HasWarnings() ||
+        diagnostic_reporter.HasNormalErrors() ||
+        diagnostic_reporter.HasFatalErrors()) {
       diagnostic_reporter.OutputSystemErrors();
       diagnostic_reporter.OutputCompilerErrors();
       return 0;
     } else {
-      std::cout << std::format("[SUCCESS]: Lexing step regarding the file '{}' has been "
-                               "successfully performed. The corresponding "
-                               "'.lexed' file has been stored at '{}'.",
-                               current_eta_filepath, output_directory_path)
-                << std::endl;
+      std::cout
+          << std::format(
+                 "[SUCCESS]: Lexing step regarding the file '{}' has been "
+                 "successfully performed. The corresponding "
+                 "'.lexed' file has been stored at '{}'.",
+                 current_eta_filepath, output_directory_path)
+          << std::endl;
     }
   }
 

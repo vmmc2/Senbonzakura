@@ -67,7 +67,8 @@ TEST_F(FileWriterTest, WriteLexerOutputSuccessTest) {
                                 "foo\n[001:004] Type: kColon - Lexeme: "
                                 ":\n[001:005] Type: kInt - Lexeme: "
                                 "int\n[001:008] Type: kEqual - Lexeme: "
-                                "=\n[001:009] Type: kInteger - Value: 9\n";
+                                "=\n[001:009] Type: kInteger - Value: "
+                                "9\n[001:010] Type: kFileEnd - Lexeme: \n";
 
   EXPECT_EQ(produced_output, expected_output);
 }

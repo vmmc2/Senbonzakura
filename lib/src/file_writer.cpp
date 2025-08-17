@@ -29,9 +29,7 @@ void FileWriter::WriteLexerOutput(const std::string &current_eta_filepath_str,
         std::format("{}/{}.lexed", output_directory_,
                     current_eta_file_path.filename().string())};
     for (const Token &token : tokens) {
-      if (token.token_type_ != TokenType::kFileEnd) {
-        output_file_stream << token << std::endl;
-      }
+      output_file_stream << token << std::endl;
     }
   } else {
     throw std::runtime_error{std::format(

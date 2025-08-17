@@ -229,15 +229,14 @@ TEST_F(LexerTest, LexesWithUnterminatedStringLiteralOnSourceCode) {
       Token{1, 7, TokenType::kLeftSquareBracket, {}, "["},
       Token{1, 8, TokenType::kRightSquareBracket, {}, "]"},
       Token{1, 10, TokenType::kEqual, {}, "="},
-      Token{1, 20, TokenType::kFileEnd, {}, ""},
   };
 
   EXPECT_EQ(output_tokens.size(), expected_tokens.size());
   EXPECT_EQ(output_tokens, expected_tokens);
 
   EXPECT_FALSE(diagnostic_reporter_.HasWarnings());
-  EXPECT_TRUE(diagnostic_reporter_.HasNormalErrors());
-  EXPECT_FALSE(diagnostic_reporter_.HasFatalErrors());
+  EXPECT_FALSE(diagnostic_reporter_.HasNormalErrors());
+  EXPECT_TRUE(diagnostic_reporter_.HasFatalErrors());
 }
 
 TEST_F(LexerTest, LexesWithStringLiteralSpanningMultipleLinesOnSourceCode) {}
@@ -252,16 +251,15 @@ TEST_F(LexerTest, LexesWithUnterminatedCharLiteralOnSourceCode) {
       Token{1, 1, TokenType::kIdentifier, {}, "s"},
       Token{1, 2, TokenType::kColon, {}, ":"},
       Token{1, 4, TokenType::kInt, {}, "int"},
-      Token{1, 8, TokenType::kEqual, {}, "="},
-      Token{1, 12, TokenType::kFileEnd, {}, ""},
+      Token{1, 8, TokenType::kEqual, {}, "="}
   };
 
   EXPECT_EQ(output_tokens.size(), expected_tokens.size());
   EXPECT_EQ(output_tokens, expected_tokens);
 
   EXPECT_FALSE(diagnostic_reporter_.HasWarnings());
-  EXPECT_TRUE(diagnostic_reporter_.HasNormalErrors());
-  EXPECT_FALSE(diagnostic_reporter_.HasFatalErrors());
+  EXPECT_FALSE(diagnostic_reporter_.HasNormalErrors());
+  EXPECT_TRUE(diagnostic_reporter_.HasFatalErrors());
 }
 
 TEST_F(LexerTest, LexesWithEmptyCharLiteralOnSourceCode) {
@@ -275,16 +273,14 @@ TEST_F(LexerTest, LexesWithEmptyCharLiteralOnSourceCode) {
       Token{1, 2, TokenType::kColon, {}, ":"},
       Token{1, 4, TokenType::kInt, {}, "int"},
       Token{1, 8, TokenType::kEqual, {}, "="},
-      Token{1, 12, TokenType::kSemiColon, {}, ";"},
-      Token{1, 13, TokenType::kFileEnd, {}, ""},
   };
 
   EXPECT_EQ(output_tokens.size(), expected_tokens.size());
   EXPECT_EQ(output_tokens, expected_tokens);
 
   EXPECT_FALSE(diagnostic_reporter_.HasWarnings());
-  EXPECT_TRUE(diagnostic_reporter_.HasNormalErrors());
-  EXPECT_FALSE(diagnostic_reporter_.HasFatalErrors());
+  EXPECT_FALSE(diagnostic_reporter_.HasNormalErrors());
+  EXPECT_TRUE(diagnostic_reporter_.HasFatalErrors());
 }
 
 TEST_F(LexerTest, LexesWithMultiCharLiteralOnSourceCode) {}
