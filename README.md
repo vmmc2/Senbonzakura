@@ -6,6 +6,7 @@ Compiler written in C++ for the Eta programming language, presented at "CS 4120 
 ## Deliberated Design Decisions
 * __The specification document has left ambiguous whether or not a statement has a semicolon ```(;)``` at its end. Since most languages opt to use it, I'll also do so.__
 * __Even though the specification document says that: "An input file is a sequence of Unicode characters, encoded using UTF-8.", I will consider that the input file is, instead, a sequence of ASCII characters, since this makes the lexing stage easier.__
+* __Also, according to the specification document, string and character literals should support some reasonable set of character escapes, including at least ```"\\"```, ```"\n"```, and ```"\'"```.__
 
 ## Doubts
 * What exactly is undefined behavior? How should we approach the usage of a variable that has not been initialized? Need to see examples from other programming languages like C, C++, Python, Java.
@@ -204,5 +205,5 @@ s: int[] = "Hello" + {13, 10};
 * The language is case-sensitive.
 * Comments are indicated by a double slash (```//```) followed by any sequence of characters until a newline character.
 * Keywords (```use```, ```if```, ```while```, ```else```, ```return```, ```length```) may not be used as identifiers. Nor may the names or values of the primitive types (```int```, ```bool```, ```true```, ```false```).
-* __String and character literals should support some reasonable set of character escapes, including at least ```"\\"```, ```"\n"```, and ```"\'"```.
+* __String and character literals should support some reasonable set of character escapes, including at least ```"\\"```, ```"\n"```, and ```"\'"```.__
 * __You may be more successful parsing negative integer literals as the negation of a positive literal.__
