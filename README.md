@@ -3,34 +3,6 @@
 ## Intro
 Compiler written in C++ for the Eta programming language, presented at "CS 4120 - Introduction to Compilers" course from Cornell University.
 
-## To-Do List for Lexing Stage
-- [ ] __Write tests using the GTest library for the Lexing stage.__
-- [ ] __Check if the code related to the Lexing stage is following the Google C++ Style Guide.__
-  * __app__
-    - [ ] main.cpp
-  * __lib/include/senbonzakura__
-    - [ ] diagnostic_reporter.hpp
-    - [ ] file_scanner.hpp
-    - [ ] file_writer.hpp
-    - [ ] lexer.hpp
-    - [ ] token_type.hpp
-    - [ ] token.hpp
-  * __lib/src__
-    - [ ] diagnostic_reporter.cpp
-    - [ ] file_scanner.cpp
-    - [ ] file_writer.cpp
-    - [ ] lexer.cpp
-    - [ ] token_type.cpp
-    - [ ] token.cpp
-  * __tests__
-    - [ ] diagnostic_reporter_test.cpp
-    - [ ] file_scanner_test.cpp
-    - [ ] file_writer_test.cpp
-    - [ ] lexer_test.cpp
-    - [ ] token_type_test.cpp
-    - [ ] token_test.cpp
- 
-
 ## To-Do List for Parsing Stage
 - [ ] Study Pratt-Parsing to check if it is okay to addopt it and mesh it with Recursive-Descent Parsing, when dealing with arithmetical expressions.
 - [ ] Consult books and other resources about how to properly implement the ```Parser``` in an incremental manner.
@@ -39,10 +11,9 @@ Compiler written in C++ for the Eta programming language, presented at "CS 4120 
 - [ ] Evaluate the possibility of generating the AST in a way that it can be given directly to LLVM so it can generate code for desired target architectures.
 
 ## Things to reconsider/rethink
-- [ ] The API and functioning of the ```FileWriter``` class. It was kinda hard to write tests for this class when I was developing the lexing phase.
+- [ ] Make the error messages have a uniform structure, whether they are related to the compiler itself or to the system that is running the compiler. __Make the tests check whether the error messages are indeed correct.__
+- [ ] The API and functioning of the ```FileScanner``` and ```FileWriter``` and classes. It was kinda hard to write tests for them when.
 - [ ] Reflect about how we handle errors. Currently we are using a ```DiagnosticReporter``` class. However, maybe there are better ways to deal with this.
-- [ ] Make the error messages have a uniform structure, whether they are related to the compiler itself or to the system that is running the compiler.
-- [ ] Reflect about how the ```FileScanner``` is structured. Also, if something about if could be improved.
 - [ ] Reflect about how some tests are being implemented. Sometimes, when I am writing a test of a certain component, I get the impression that there are many more components being involved. Which gives me the impression that the components of the Senbonzakura compiler are currently highly coupled.
 
 ## Commands to Execute Tests
