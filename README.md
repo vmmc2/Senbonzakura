@@ -3,12 +3,17 @@
 ## Intro
 Compiler written in C++ for the Eta programming language, presented at "CS 4120 - Introduction to Compilers" course from Cornell University.
 
-## To-Do List for Parsing Stage
-- [ ] Study Pratt-Parsing to check if it is okay to addopt it and mesh it with Recursive-Descent Parsing, when dealing with arithmetical expressions.
-- [ ] Consult books and other resources about how to properly implement the ```Parser``` in an incremental manner.
-- [ ] Study a lot about OOP in C++. I think I gonna need it a lot. As well as templates.
-- [ ] Make a pretty printer for the generated AST.
-- [ ] Evaluate the possibility of generating the AST in a way that it can be given directly to LLVM so it can generate code for desired target architectures.
+## Deliberated Design Decisions
+* __The specification document has left ambiguous whether or not a statement has a semicolon ```(;)``` at its end. Since most languages opt to use it, I'll also do so.__
+* __Even though the specification document says that: "An input file is a sequence of Unicode characters, encoded using UTF-8.", I will consider that the input file is, instead, a sequence of ASCII characters, since this makes the lexing stage easier.__
+
+## Doubts
+* What exactly is undefined behavior? How should we approach the usage of a variable that has not been initialized? Need to see examples from other programming languages like C, C++, Python, Java.
+* It would be cool to detect the use of uninitialized variables and, then, maybe throw a warning or an error during the compilation phase.
+* Honestly, I got a little confused about the following statement declared within the Eta programming language specification: "All global variables in scope may have their value changed by assignments in functions". Does this mean that everytime that I want to change the value of a global variable I must call a specific function that does that for me?
+* What does it mean to say that every binary arithmetic operation operates modulo ```2^64```?
+* I don't think I fully understood this statement: "Arrays are implemented by placing the representations of the values of each of their cells contiguously in memory. They also record their lengths."
+
 
 ## Things to reconsider/rethink
 - [ ] Make the error messages have a uniform structure, whether they are related to the compiler itself or to the system that is running the compiler. __Make the tests check whether the error messages are indeed correct.__
@@ -136,7 +141,6 @@ setDebug(b: bool) {
 * __Division by zero causes the program to halt with an error.__
 * Integers can be compared with the usual Java/C relational operators: ```==```, ```!=```, ```<```, ```<=```, ```>```, and ```>=```.
 * __A literal integer constant is denoted by an optional minus sign (```-```) and a sequence of digits starting with a digit in ```1–9```, or a single ```0```.__
-* As in Java, a character literal may be used to denote an integer, so ```'a'``` is the same as ```97```. __Character literals may signify any legal Unicode character, with allowed codes ranging from ```U+000000``` to ```U+10FFFF```.__
 
 ### Booleans
 * The type bool has two values: ```true``` and ```false```.
@@ -179,7 +183,6 @@ a: int[] = { 72,101,108,108,111 };
 a: int[] = "Hello";
 ```
 * __String literals may not span multiple lines in the source file.__
-* __Like character literals, each character of a string literal must be a legal Unicode character.__
 * An array of arbitrary length ```n```, whose cells are not initialized, may be created at the point of declaration by including the length in the declaration of the array.
 * __The length is not part of the array’s type and it need not be a constant.__
 * __Use of uninitialized array cells has undefined results (i.e., it is considered undefined behavior).__
@@ -198,20 +201,8 @@ s: int[] = "Hello" + {13, 10};
 ## Statements
 
 ## Lexical Considerations
-* The language is case-sensitive. __An input file is a sequence of Unicode characters, encoded using UTF-8. Therefore ASCII input is always valid.__
-* Comments are indicated by a double slash // followed by any sequence of characters until a newline character.
+* The language is case-sensitive.
+* Comments are indicated by a double slash (```//```) followed by any sequence of characters until a newline character.
 * Keywords (```use```, ```if```, ```while```, ```else```, ```return```, ```length```) may not be used as identifiers. Nor may the names or values of the primitive types (```int```, ```bool```, ```true```, ```false```).
-* __String and character literals should support some reasonable set of character escapes, including at least ```"\\"```, ```"\n"```, and ```"\'"```. In addition, an escape of the form ```"\x{HHHHHH}"```, where ```HHHHHH``` stands for ```1–6``` hexadecimal digits (upper or lower case), represents the Unicode character with the corresponding code. For example ```"\x{0a}"``` is the same as ```"\n"```.__
+* __String and character literals should support some reasonable set of character escapes, including at least ```"\\"```, ```"\n"```, and ```"\'"```.
 * __You may be more successful parsing negative integer literals as the negation of a positive literal.__
-
-## Doubts
-* What about the ```char``` type? If the type ```int[]``` can be used to represent a ```string```. Then, by following this logic, can we use the ```int``` type to represent a ```char``` ?
-* If the answer to the question above is yes, then which character set are we representing? ASCII? UTF-8? How does one represent any UTF-8 character using an ```int``` value?
-* What exactly is undefined behavior? How should we approach the usage of a variable that has not been initialized? Need to see examples from other programming languages like C, C++, Python, Java.
-* It would be cool to detect the use of uninitialized variables and, then, maybe throw a warning or an error during the compilation phase.
-* It seems that the specification document has left ambiguous whether or not a statement has a semicolon ```(;)``` at its end. Since most languages opt to use it, I'll also do so.
-* Honestly, I don't know how the following observation present in Eta specification can make the parsing easier: "To simplify parsing, any ```return``` statement can only occur as the last statement in its block."
-* Honestly, I got a little confused about the following statement declared within the Eta programming language specification: "All global variables in scope may have their value changed by assignments in functions". Does this mean that everytime that I want to change the value of a global variable I must call a specific function that does that for me?
-* What does it mean to say that every binary arithmetic operation operates modulo ```2^64```?
-* The Eta Specification document says that "Like character literals, each character of a string literal must be a legal Unicode character". But what exactly is a legal Unicode character? And how should I represent it inside within a token?
-* I don't think I fully understood this statement: "Arrays are implemented by placing the representations of the values of each of their cells contiguously in memory. They also record their lengths."
