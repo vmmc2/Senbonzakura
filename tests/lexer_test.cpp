@@ -331,4 +331,36 @@ TEST_F(LexerTest, LexesWithEmptyCharLiteralOnSourceCode) {
   EXPECT_EQ(captured_cout_.str(), expected_output);
 }
 
-TEST_F(LexerTest, LexesWithMultiCharLiteralOnSourceCode) {}
+TEST_F(LexerTest, LexesWithMultiCharLiteralOnSourceCode) {
+  std::string file_content_bytes = "s: int = 'abcd';";
+
+  std::vector<Token> output_tokens =
+      LexSourceCode("test_multi_char_literal.eta", file_content_bytes);
+
+  std::vector<Token> expected_tokens{
+      Token{1, 1, TokenType::kIdentifier, {}, "s"},
+      Token{1, 2, TokenType::kColon, {}, ":"},
+      Token{1, 4, TokenType::kInt, {}, "int"},
+      Token{1, 8, TokenType::kEqual, {}, "="},
+  };
+
+  EXPECT_EQ(output_tokens.size(), expected_tokens.size());
+  EXPECT_EQ(output_tokens, expected_tokens);
+
+  EXPECT_FALSE(diagnostic_reporter_.HasWarnings());
+  EXPECT_FALSE(diagnostic_reporter_.HasNormalErrors());
+  EXPECT_TRUE(diagnostic_reporter_.HasFatalErrors());
+
+  std::string expected_output =
+      kAnsiRed +
+      "[Fatal] - [Location]:[Source File: "
+      "'/tmp/test_lexer_dir/test_multi_char_literal.eta' - Line: 1 - "
+      "Column: 10] - [Message]:[E]: A character literal that does not follow "
+      "the Eta "
+      "Specification Document was found within the "
+      "source file." +
+      kAnsiReset + "\n";
+  diagnostic_reporter_.OutputCompilerErrors();
+
+  EXPECT_EQ(captured_cout_.str(), expected_output);
+}
