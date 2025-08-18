@@ -1,3 +1,4 @@
+#include "senbonzakura/diagnostic_reporter.hpp"
 #include "senbonzakura/file_scanner.hpp"
 #include "senbonzakura/lexer.hpp"
 #include "senbonzakura/token.hpp"
@@ -249,6 +250,17 @@ TEST_F(LexerTest, LexesWithUnterminatedStringLiteralOnSourceCode) {
   EXPECT_FALSE(diagnostic_reporter_.HasWarnings());
   EXPECT_FALSE(diagnostic_reporter_.HasNormalErrors());
   EXPECT_TRUE(diagnostic_reporter_.HasFatalErrors());
+
+  std::string expected_output =
+      kAnsiRed +
+      "[Fatal] - [Location]:[Source File: "
+      "'/tmp/test_lexer_dir/test_unterminated_string_literal.eta' - Line: 1 - "
+      "Column: 12] - [Message]:[E]: An unterminated string literal was found "
+      "within the source file." +
+      kAnsiReset + "\n";
+  diagnostic_reporter_.OutputCompilerErrors();
+
+  EXPECT_EQ(captured_cout_.str(), expected_output);
 }
 
 TEST_F(LexerTest, LexesWithStringLiteralSpanningMultipleLinesOnSourceCode) {}
@@ -271,6 +283,19 @@ TEST_F(LexerTest, LexesWithUnterminatedCharLiteralOnSourceCode) {
   EXPECT_FALSE(diagnostic_reporter_.HasWarnings());
   EXPECT_FALSE(diagnostic_reporter_.HasNormalErrors());
   EXPECT_TRUE(diagnostic_reporter_.HasFatalErrors());
+
+  std::string expected_output =
+      kAnsiRed +
+      "[Fatal] - [Location]:[Source File: "
+      "'/tmp/test_lexer_dir/test_unterminated_char_literal.eta' - Line: 1 - "
+      "Column: 10] - [Message]:[E]: A character literal that does not follow "
+      "the Eta "
+      "Specification Document was found within the "
+      "source file." +
+      kAnsiReset + "\n";
+  diagnostic_reporter_.OutputCompilerErrors();
+
+  EXPECT_EQ(captured_cout_.str(), expected_output);
 }
 
 TEST_F(LexerTest, LexesWithEmptyCharLiteralOnSourceCode) {
@@ -292,6 +317,18 @@ TEST_F(LexerTest, LexesWithEmptyCharLiteralOnSourceCode) {
   EXPECT_FALSE(diagnostic_reporter_.HasWarnings());
   EXPECT_FALSE(diagnostic_reporter_.HasNormalErrors());
   EXPECT_TRUE(diagnostic_reporter_.HasFatalErrors());
+
+  std::string expected_output =
+      kAnsiRed +
+      "[Fatal] - [Location]:[Source File: "
+      "'/tmp/test_lexer_dir/test_empty_char_literal.eta' - Line: 1 - "
+      "Column: 10] - [Message]:[E]: An empty character literal ('') was found "
+      "within the "
+      "source file. This is not a valid ASCII character." +
+      kAnsiReset + "\n";
+  diagnostic_reporter_.OutputCompilerErrors();
+
+  EXPECT_EQ(captured_cout_.str(), expected_output);
 }
 
 TEST_F(LexerTest, LexesWithMultiCharLiteralOnSourceCode) {}
