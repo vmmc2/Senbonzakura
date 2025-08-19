@@ -9,6 +9,7 @@
 #include "senbonzakura/file_scanner.hpp"
 #include "senbonzakura/file_writer.hpp"
 #include "senbonzakura/lexer.hpp"
+#include "senbonzakura/parser.hpp"
 
 int main(int argc, const char **argv) {
   std::string output_directory_path;
@@ -61,6 +62,9 @@ int main(int argc, const char **argv) {
 
     Lexer lexer{current_eta_filepath, file_content, diagnostic_reporter};
     const std::vector<Token> tokens = lexer.LexTokens();
+
+    Parser parser{current_eta_filepath, tokens, diagnostic_reporter};
+    parser.Parse();
 
     file_writer.WriteLexerOutput(current_eta_filepath, tokens);
 
