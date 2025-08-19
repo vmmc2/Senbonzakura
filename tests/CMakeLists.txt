@@ -6,6 +6,7 @@ add_executable(senbonzakura_tests
   file_scanner_test.cpp
   file_writer_test.cpp
   lexer_test.cpp
+  parser_test.cpp
   token_test.cpp
   token_type_test.cpp
 )
