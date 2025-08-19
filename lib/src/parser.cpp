@@ -5,4 +5,4 @@ Parser::Parser(const std::string &file_path, const std::vector<Token> &tokens,
     : file_path_{file_path}, tokens_{tokens},
       diagnostic_reporter_{diagnostic_reporter} {}
 
-void Parse() {}
+void Parser::Parse() {}
