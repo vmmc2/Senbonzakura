@@ -22,6 +22,18 @@ Compiler written in C++ for the Eta programming language, presented at "CS 4120 
 - [ ] Reflect about how we handle errors. Currently we are using a ```DiagnosticReporter``` class. However, maybe there are better ways to deal with this.
 - [ ] Reflect about how some tests are being implemented. Sometimes, when I am writing a test of a certain component, I get the impression that there are many more components being involved. Which gives me the impression that the components of the Senbonzakura compiler are currently highly coupled.
 
+## Commands to Configure, Build and Execute the Project
+```sh
+# 1. Configure the project in the 'build' directory
+cmake -S . -B build
+
+# 2. Compile th project
+cmake --build build
+
+# 3. Execute the program executable
+./build/my_program
+```
+
 ## Commands to Execute Tests
 ```sh
 cd build
