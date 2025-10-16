@@ -235,7 +235,7 @@ err2: int[][3];                         // ILLEGAL
 ## Precedence
 * Expressions in Eta have different levels of precedence. The following table gives the associativity of the various operators, in order of decreasing precedence:
 
-<div align="center">
+<p align="center">
 |    Operator    |                          Description                     |  Associativity  |
 |----------------|----------------------------------------------------------|-----------------|
 |      -, !      |               Function Call, Array Indexing [ ]          |       Left      |
@@ -246,7 +246,7 @@ err2: int[][3];                         // ILLEGAL
 |     ==, !=     |                      Equality Operators                  |       Left      |
 |        &       |                          Logical And                     |       Left      |
 |       \|       |                           Logical Or                     |       Left      |
-</div>
+</p>
 
 ## Statements
 
