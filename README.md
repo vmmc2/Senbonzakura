@@ -237,7 +237,7 @@ err2: int[][3];                         // ILLEGAL
 
 |    Operator    |                          Description                     |  Associativity  |
 |----------------|----------------------------------------------------------|-----------------|
-|      -, !      |               Function Call, Array Indexing []           |       Left      |
+|      -, !      |               Function Call, Array Indexing [ ]          |       Left      |
 |                |                Integer and Logical Negation              |       ----      |
 |  *, *>>, /, %  | Multiplication, High Multiplication, Division, Remainder |       Left      |
 |      +, -      |                     Addition, Subtraction                |       Left      |
