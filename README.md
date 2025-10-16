@@ -9,6 +9,7 @@ Compiler written in C++ for the Eta programming language, presented at "CS 4120 
 * __Also, according to the specification document, string and character literals should support some reasonable set of character escapes, including at least ```"\\"```, ```"\n"```, and ```"\'"```.__
 
 ## Doubts
+* Why is a call to a procedure considered to be a valid statement but a call to a function is not?
 * What exactly is undefined behavior? How should we approach the usage of a variable that has not been initialized? Need to see examples from other programming languages like C, C++, Python, Java.
 * It would be cool to detect the use of uninitialized variables and, then, maybe throw a warning or an error during the compilation phase.
 * Honestly, I got a little confused about the following statement declared within the Eta programming language specification: "All global variables in scope may have their value changed by assignments in functions". Does this mean that everytime that I want to change the value of a global variable I must call a specific function that does that for me?
@@ -246,8 +247,17 @@ err2: int[][3];                         // ILLEGAL
   |        &       |                          Logical And                     |       Left      |
   |       \|       |                           Logical Or                     |       Left      |
 
-
 ## Statements
+* The statements considered legal in Eta are:
+  * Assignment to a variable or array element. The left-hand side of the assignment cannot begin with the following characters ```( ```, ````{```, ```"```.
+  * ```if``` and ```while``` statements with syntax similar to that in C and Java. __Here I made the decision that parentheses are required in guard expressions.__
+  * A ```return``` statement.
+    * In a procedure (a function that does not return any value), this is written as: ```return;```.
+    * In a function with a return type, the value(s) to be returned follow the return keyword, separated by commas.
+    * __Unlike in Java, a return statement may only be used inside a block and must be the last statement in its immediately enclosing block.__
+  * A call to a procedure (but not a function).
+  * A block of statements, surrounded by braces. A block may be empty or may contain a sequence of statements. Each statement in a block is terminated by a semicolon. Anywhere a block of statements is expected (like in loops, if-elseif-else statements), a single (non-return) statement may be used instead, except in a function definition, where a full block is required.
+  * A variable declaration, with an optional initialization expression. It may declare multiple variables, in which case it may be initialized with either a function call with the appropriate return types or a comma-separated list of expressions of the right types.
 
 ## Lexical Considerations
 * The language is case-sensitive.
