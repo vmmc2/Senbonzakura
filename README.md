@@ -207,6 +207,29 @@ s: int[] = "Hello" + {13, 10};
 ```
 
 #### Multi-Dimensional Arrays
+* Multi-Dimensional Arrays are represented by arrays of arrays, as it happens in Java.
+* For example, the type ```int[][]``` is represented as array of pointers to arrays.
+* __A multi-dimensional array can be initialized by providing some or all dimensions in its variable declaration.__
+* The examples shown below demonstrate different ways (valid and invalid) of declaring arrays in Eta:
+```rust
+a: int[][];
+b: int[3][4];
+a = b;
+c: int[3][];
+c[0] = b[0]; c[1] = b[1]; c[2] = b[2];
+d: int[][] = {{1, 0},{0, 1}};
+err1: int[3] = {1, 2, 3};               // ILLEGAL 
+err2: int[][3];                         // ILLEGAL
+```
+* __Let's go through each declaration to see why it is legal or illegal:__
+  __1. ```a: int[][];```:__ This leaves a variable uninitialized. It declares it, but it does not initialize it with a value during the declaration. This is undefined behavior. As the compiler developer, it is our responsibility to define what is supposed to happen when an user writes code like this.
+  __2. ```b: int[3][4];```:__ This line sets variable ```b``` to a pointer to an array of 3 elements, each of which is initialized to point to an uninitialized array of 4 elements.
+  __3. ```a = b;```:__ In order to be used, a variable must be initialized with a pointer to an array of arrays.
+  __4. ```c: int[3][];```:__ This line makes ```c``` a pointer to an array of 3 elements, but those elements are not initialized to point to arrays.
+  __5. ```c[0] = b[0]; c[1] = b[1]; c[2] = b[2];```:__ This line, initializes the elements of ```c``` to share the same underlying arrays as variables ```a``` and ```b```.
+  __6. ```d: int[][] = {{1, 0},{0, 1}};```:__ This line initializes variable ```d``` as a 2x2 array representing an identity matrix.
+  __7. ```err1: int[3] = {1, 2, 3};```:__ This line has an illegal declaration because it is combining two different ways to initialize the array contents.
+  __8. ```err2: int[][3];```:__ This line has an illegal declaration because the array cannot be created as described: a dimension is specified after an unspecified dimension.
 
 
 ## Precedence
