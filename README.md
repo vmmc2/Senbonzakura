@@ -238,8 +238,8 @@ err2: int[][3];                         // ILLEGAL
 
   |    Operator    |                          Description                     |  Associativity  |
   |----------------|----------------------------------------------------------|-----------------|
-  |      -, !      |               Function Call, Array Indexing [ ]          |       Left      |
-  |                |                Integer and Logical Negation              |       ----      |
+  | foo(), bar[0]  |               Function Call, Array Indexing [ ]          |       Left      |
+  |      -, !      |                Integer and Logical Negation              |       ----      |
   |  *, *>>, /, %  | Multiplication, High Multiplication, Division, Remainder |       Left      |
   |      +, -      |                     Addition, Subtraction                |       Left      |
   |  >, >=, <, <=  |                     Comparison Operators                 |       Left      |
@@ -249,7 +249,7 @@ err2: int[][3];                         // ILLEGAL
 
 ## Statements
 * The statements considered legal in Eta are:
-  * Assignment to a variable or array element. The left-hand side of the assignment cannot begin with the following characters ```( ```, ````{```, ```"```.
+  * Assignment to a variable or array element. The left-hand side of the assignment cannot begin with the following characters ```( ```, ```{```, ```"```.
   * ```if``` and ```while``` statements with syntax similar to that in C and Java. __Here I made the decision that parentheses are required in guard expressions.__
   * A ```return``` statement.
     * In a procedure (a function that does not return any value), this is written as: ```return;```.
@@ -265,3 +265,18 @@ err2: int[][3];                         // ILLEGAL
 * Keywords (```use```, ```if```, ```while```, ```else```, ```return```, ```length```) may not be used as identifiers. Nor may the names or values of the primitive types (```int```, ```bool```, ```true```, ```false```).
 * __String and character literals should support some reasonable set of character escapes, including at least ```"\\"```, ```"\n"```, and ```"\'"```.__
 * __You may be more successful parsing negative integer literals as the negation of a positive literal.__
+
+## Source Files and Interfaces
+
+## Current Library Interfaces
+
+## Current Context-Free Grammar Implemented for Eta
+```
+expression → equality
+equality → comparison ( ( "!=" | "==" ) comparison )*
+comparison → term ( ( ">" | ">=" | "<" | "<=" ) term )*
+term → factor ( ( "-" | "+" ) factor )*
+factor → unary ( ( "/" | "*" | "*>>" | "%" ) unary )*
+unary → ( "!" | "-" ) unary | primary
+primary → NUMBER | STRING | "true" | "false" | "(" expression ")"
+```
