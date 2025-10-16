@@ -235,18 +235,17 @@ err2: int[][3];                         // ILLEGAL
 ## Precedence
 * Expressions in Eta have different levels of precedence. The following table gives the associativity of the various operators, in order of decreasing precedence:
 
-<p align="center">
-|    Operator    |                          Description                     |  Associativity  |
-|----------------|----------------------------------------------------------|-----------------|
-|      -, !      |               Function Call, Array Indexing [ ]          |       Left      |
-|                |                Integer and Logical Negation              |       ----      |
-|  *, *>>, /, %  | Multiplication, High Multiplication, Division, Remainder |       Left      |
-|      +, -      |                     Addition, Subtraction                |       Left      |
-|  >, >=, <, <=  |                     Comparison Operators                 |       Left      |
-|     ==, !=     |                      Equality Operators                  |       Left      |
-|        &       |                          Logical And                     |       Left      |
-|       \|       |                           Logical Or                     |       Left      |
-</p>
+  |    Operator    |                          Description                     |  Associativity  |
+  |----------------|----------------------------------------------------------|-----------------|
+  |      -, !      |               Function Call, Array Indexing [ ]          |       Left      |
+  |                |                Integer and Logical Negation              |       ----      |
+  |  *, *>>, /, %  | Multiplication, High Multiplication, Division, Remainder |       Left      |
+  |      +, -      |                     Addition, Subtraction                |       Left      |
+  |  >, >=, <, <=  |                     Comparison Operators                 |       Left      |
+  |     ==, !=     |                      Equality Operators                  |       Left      |
+  |        &       |                          Logical And                     |       Left      |
+  |       \|       |                           Logical Or                     |       Left      |
+
 
 ## Statements
 
