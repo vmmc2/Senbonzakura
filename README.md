@@ -244,7 +244,7 @@ err2: int[][3];                         // ILLEGAL
 |  >, >=, <, <=  |                     Comparison Operators                 |       Left      |
 |     ==, !=     |                      Equality Operators                  |       Left      |
 |        &       |                          Logical And                     |       Left      |
-|        |       |                           Logical Or                     |       Left      |
+|       \|       |                           Logical Or                     |       Left      |
 
 ## Statements
 
