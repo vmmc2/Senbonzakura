@@ -10,6 +10,10 @@ Compiler written in C++ for the Eta programming language, presented at "CS 4120 
 
 ## Doubts
 * Why is a call to a procedure considered to be a valid statement but a call to a function is not?
+* What does the following statement means exactly?
+  * "The compiler may also read in interface files that describe external code to be used by the program."
+* It is not clear to me how the interaction between ```.eta``` and ```.eti``` files actually happen.
+* It is not clear to me how the interaction between the Eta language happens with I/O and conversion functionalities.
 * What exactly is undefined behavior? How should we approach the usage of a variable that has not been initialized? Need to see examples from other programming languages like C, C++, Python, Java.
 * It would be cool to detect the use of uninitialized variables and, then, maybe throw a warning or an error during the compilation phase.
 * Honestly, I got a little confused about the following statement declared within the Eta programming language specification: "All global variables in scope may have their value changed by assignments in functions". Does this mean that everytime that I want to change the value of a global variable I must call a specific function that does that for me?
@@ -236,16 +240,16 @@ err2: int[][3];                         // ILLEGAL
 ## Precedence
 * Expressions in Eta have different levels of precedence. The following table gives the associativity of the various operators, in order of decreasing precedence:
 
-  |    Operator    |                          Description                     |  Associativity  |
-  |----------------|----------------------------------------------------------|-----------------|
-  | foo(), bar[0]  |               Function Call, Array Indexing [ ]          |       Left      |
-  |      -, !      |                Integer and Logical Negation              |       ----      |
-  |  *, *>>, /, %  | Multiplication, High Multiplication, Division, Remainder |       Left      |
-  |      +, -      |                     Addition, Subtraction                |       Left      |
-  |  >, >=, <, <=  |                     Comparison Operators                 |       Left      |
-  |     ==, !=     |                      Equality Operators                  |       Left      |
-  |        &       |                          Logical And                     |       Left      |
-  |       \|       |                           Logical Or                     |       Left      |
+  | Operator      | Description                                              | Associativity |
+  | ------------- | -------------------------------------------------------- | ------------- |
+  | foo(), bar[0] | Function Call, Array Indexing [ ]                        | Left          |
+  | -, !          | Integer and Logical Negation                             | ----          |
+  | *, *>>, /, %  | Multiplication, High Multiplication, Division, Remainder | Left          |
+  | +, -          | Addition, Subtraction                                    | Left          |
+  | >, >=, <, <=  | Comparison Operators                                     | Left          |
+  | ==, !=        | Equality Operators                                       | Left          |
+  | &             | Logical And                                              | Left          |
+  | \|            | Logical Or                                               | Left          |
 
 ## Statements
 * The statements considered legal in Eta are:
@@ -267,8 +271,48 @@ err2: int[][3];                         // ILLEGAL
 * __You may be more successful parsing negative integer literals as the negation of a positive literal.__
 
 ## Source Files and Interfaces
+* __The Senbonzakura compiler compilers a source file with the `.eta` extension to executable code.__
+* __The compiler may also read in interface files that describe external code to be used by the program.__
+* __Some information about interface files:__
+  * Interface files have the extension ```.eti```.
+  * Interface files contain a nonempty set of procedure and function declarations without implementations and may contain end-of-line comments.
+  * To use the procedures and functions declared in interface file ```F.eti```, a source file (with the ```.eta``` extension) includes the top-level declaration ```use F;```. 
+  * This causes the compiler to look for ```F.eti```. All such ```use``` declarations must precede all procedure and function definitions.
+  * Multiple ```use``` declarations are permitted within one source file (```.eta``` file).
+  * The same function or procedure may be declared in multiple ```.eti``` files that are read in and may also be defined in the source file, but its signature must match everywhere it appears. Therefore, it is legal to reference an interface more than once in a source file.
 
 ## Current Library Interfaces
+* Interfaces for I/O and corresponding libraries are available, including the following functions from interface file ```io```:
+```rust
+// I/O support
+
+print(str: int[]) // Print a string to standard output.
+println(str: int[]) // Print a string to standard output, followed by a newline and flush.
+readln() : int[] // Read from standard input until a newline.
+getchar() : int // Read a single character from standard input.
+                // Return -1 if the end of input has been reached.
+eof() : bool // Test for end of file on standard input.
+```
+* With the I/O utility functions, we can easily write a "Hello, World!" program in Eta, as shown below:
+```rust
+use io;
+
+main(args: int[][]) {
+  println("Hello, World!");
+}
+```
+* Moreover, there are some utility functions that can be used for conversion, present in the interface file ```conv```:
+```rust
+// String conversion functions
+
+// If "str" contains a sequence of ASCII characters that correctly represent
+// an integer constant n, return (n, true). Otherwise return (0, false).
+parseInt(str: int[]): int, bool
+
+// Return a sequence of ASCII characters representing the
+// integer n.
+unparseInt(n: int): int[]
+```
 
 ## Current Context-Free Grammar Implemented for Eta
 ```
